@@ -34,15 +34,16 @@ For each module from the system, execute the following command to remove it:
  
 $ sudo modprobe -r <module name>'
   impact 0.5
+  tag check_id: 'C-74788r1066752_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000481-GPOS-00481'
-  tag satisfies: ['SRG-OS-000299-GPOS-00117', 'SRG-OS-000300-GPOS-00118', 'SRG-OS-000481-GPOS-000481', 'SRG-OS-000424-GPOS-00188', 'SRG-OS-000481-GPOS-00481']
   tag gid: 'V-270755'
   tag rid: 'SV-270755r1066754_rule'
   tag stig_id: 'UBTU-24-600230'
+  tag gtitle: 'SRG-OS-000481-GPOS-00481'
   tag fix_id: 'F-74689r1066753_fix'
-  tag cci: ['CCI-001444', 'CCI-001443', 'CCI-002418', 'CCI-002421']
-  tag nist: ['AC-18 (1)', 'SC-8', 'SC-8 (1)']
+  tag 'documentable'
+  tag cci: ['CCI-002418']
+  tag nist: ['SC-8']
   tag 'host'
   tag 'container'
 

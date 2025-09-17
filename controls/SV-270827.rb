@@ -1,8 +1,10 @@
 control 'SV-270827' do
   title 'Ubuntu 24.04 LTS must be configured so that audit log files are not read or write-accessible by unauthorized users.'
-  desc 'Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.  
-  
-Audit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.'
+  desc 'Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality. 
+ 
+Audit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.
+
+'
   desc 'check', 'Verify that the audit log files have a mode of "0600" or less permissive. 
  
 Determine where the audit logs are stored with the following command: 
@@ -28,15 +30,17 @@ Using the path of the directory containing the audit logs, configure the audit l
  
 $ sudo chmod 0600 /var/log/audit/*'
   impact 0.5
+  tag check_id: 'C-74860r1066968_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000057-GPOS-00027'
-  tag satisfies: ['SRG-OS-000057-GPOS-00027', 'SRG-OS-000058-GPOS-00028', 'SRG-OS-000059-GPOS-00029', 'SRG-OS-000206-GPOS-00084']
   tag gid: 'V-270827'
   tag rid: 'SV-270827r1066970_rule'
   tag stig_id: 'UBTU-24-901300'
+  tag gtitle: 'SRG-OS-000057-GPOS-00027'
   tag fix_id: 'F-74761r1066969_fix'
-  tag cci: ['CCI-000162', 'CCI-000163', 'CCI-000164', 'CCI-001314']
-  tag nist: ['AU-9', 'AU-9 a', 'SI-11 b']
+  tag satisfies: ['SRG-OS-000057-GPOS-00027', 'SRG-OS-000058-GPOS-00028']
+  tag 'documentable'
+  tag cci: ['CCI-000162', 'CCI-000163']
+  tag nist: ['AU-9 a', 'AU-9 a']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

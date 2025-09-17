@@ -23,4 +23,8 @@ $ sudo chmod 740 /usr/bin/journalctl'
   tag 'documentable'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']
+
+  describe file('/usr/bin/journalctl') do
+    it { should_not be_more_permissive_than('740') }
+  end
 end

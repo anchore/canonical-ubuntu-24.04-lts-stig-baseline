@@ -9,14 +9,16 @@ ldap_user_certificate=userCertificate;binary'
 
 ldap_user_certificate=userCertificate;binary'
   impact 0.7
+  tag check_id: 'C-74769r1066695_chk'
   tag severity: 'high'
-  tag gtitle: 'SRG-OS-000068-GPOS-00036'
   tag gid: 'V-270736'
   tag rid: 'SV-270736r1066697_rule'
   tag stig_id: 'UBTU-24-400370'
+  tag gtitle: 'SRG-OS-000068-GPOS-00036'
   tag fix_id: 'F-74670r1066696_fix'
+  tag 'documentable'
   tag cci: ['CCI-000187']
-  tag nist: ['IA-5 (2) (c)', 'IA-5 (2) (a) (2)']
+  tag nist: ['IA-5 (2) (a) (2)']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

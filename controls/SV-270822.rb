@@ -4,7 +4,9 @@ control 'SV-270822' do
  
 Operating systems providing tools to interface with audit information will leverage user permissions, roles identifying the user accessing the tools, and the corresponding user rights to make decisions regarding access to audit tools. 
  
-Audit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.'
+Audit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.
+
+'
   desc 'check', 'Verify Ubuntu 24.04 LTS configures the audit tools to be owned by root to prevent any unauthorized access with the following command:  
  
 $ stat -c "%n %U" /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/audispd* /sbin/augenrules
@@ -23,14 +25,16 @@ $ sudo chown root [audit_tool]
  
 Replace "[audit_tool]" with each audit tool not owned by root.'
   impact 0.5
+  tag check_id: 'C-74855r1066953_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000257-GPOS-00098'
-  tag satisfies: ['SRG-OS-000256-GPOS-00097', 'SRG-OS-000257-GPOS-00098', 'SRG-OS-000258-GPOS-00099']
   tag gid: 'V-270822'
   tag rid: 'SV-270822r1068392_rule'
   tag stig_id: 'UBTU-24-901240'
+  tag gtitle: 'SRG-OS-000257-GPOS-00098'
   tag fix_id: 'F-74756r1066954_fix'
-  tag cci: ['CCI-001493', 'CCI-001494']
+  tag satisfies: ['SRG-OS-000257-GPOS-00098', 'SRG-OS-000256-GPOS-00097']
+  tag 'documentable'
+  tag cci: ['CCI-001494', 'CCI-001493']
   tag nist: ['AU-9', 'AU-9 a']
   tag 'host'
 

@@ -12,12 +12,14 @@ If any system commands are returned and not owned by a required system account, 
  
 $ sudo chown root [FILE]'
   impact 0.5
+  tag check_id: 'C-74735r1066593_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag gid: 'V-270702'
   tag rid: 'SV-270702r1066595_rule'
   tag stig_id: 'UBTU-24-300012'
+  tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag fix_id: 'F-74636r1066594_fix'
+  tag 'documentable'
   tag cci: ['CCI-001499']
   tag nist: ['CM-5 (6)']
   tag 'host'

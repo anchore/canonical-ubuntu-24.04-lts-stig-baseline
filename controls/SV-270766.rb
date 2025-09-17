@@ -13,12 +13,14 @@ If the "/var/log" directory is not owned by root, this is a finding.'
  
 $ sudo chown root /var/log'
   impact 0.5
+  tag check_id: 'C-74799r1066785_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000206-GPOS-00084'
   tag gid: 'V-270766'
   tag rid: 'SV-270766r1066787_rule'
   tag stig_id: 'UBTU-24-700110'
+  tag gtitle: 'SRG-OS-000206-GPOS-00084'
   tag fix_id: 'F-74700r1066786_fix'
+  tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
   tag 'host'

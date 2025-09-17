@@ -2,7 +2,9 @@ control 'SV-270658' do
   title 'Ubuntu 24.04 LTS audit event multiplexor must be configured to offload audit logs onto a different system or storage media from the system being audited.'
   desc 'Information stored in one location is vulnerable to accidental or incidental deletion or alteration. 
  
-Offloading is a common process in information systems with limited audit storage capacity.'
+Offloading is a common process in information systems with limited audit storage capacity.
+
+'
   desc 'check', 'Verify the audit event multiplexor is configured to offload audit records to a different system or storage media from the system being audited. 
  
 Check that audisp-remote plugin is installed:
@@ -52,6 +54,7 @@ $ sudo systemctl restart auditd.service)
   tag stig_id: 'UBTU-24-100450'
   tag gtitle: 'SRG-OS-000342-GPOS-00133'
   tag fix_id: 'F-74592r1067150_fix'
+  tag satisfies: ['SRG-OS-000342-GPOS-00133', 'SRG-OS-000479-GPOS-00224']
   tag 'documentable'
   tag cci: ['CCI-001851']
   tag nist: ['AU-4 (1)']
@@ -63,5 +66,13 @@ $ sudo systemctl restart auditd.service)
 
   describe package('audispd-plugins') do
     it { should be_installed }
+  end
+
+  describe command('grep -i active /etc/audit/plugins.d/au-remote.conf') do
+    its('stdout') { should match "active = yes" }
+  end
+
+  describe command('grep -i ^remote_server /etc/audit/audisp-remote.conf') do
+    its('stdout') { should include "remote_server" }
   end
 end

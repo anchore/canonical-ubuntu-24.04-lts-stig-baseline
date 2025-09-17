@@ -1,7 +1,7 @@
 control 'SV-270778' do
   title 'Ubuntu 24.04 LTS must generate audit records for successful/unsuccessful uses of the su command.'
-  desc 'Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  
-  
+  desc 'Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. 
+ 
 Audit records can be generated from various components within the information system (e.g., module or policy filter).'
   desc 'check', 'Verify Ubuntu 24.04 LTS generates audit records upon successful/unsuccessful attempts to use the "su" command with the following command: 
  
@@ -21,15 +21,16 @@ To reload the rules file, issue the following command:
  
 $ sudo augenrules --load'
   impact 0.5
+  tag check_id: 'C-74811r1066821_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000064-GPOS-00033'
-  tag satisfies: ['SRG-OS-000062-GPOS-00031', 'SRG-OS-000037-GPOS-00015', 'SRG-OS-000042-GPOS-00020', 'SRG-OS-000064-GPOS-0003', 'SRG-OS-000392-GPOS-00172', 'SRG-OS-000462-GPOS-00206', 'SRG-OS-000471-GPOS-00215', 'SRG-OS-000466-GPOS-00210', 'SRG-OS-000064-GPOS-00033']
   tag gid: 'V-270778'
   tag rid: 'SV-270778r1066823_rule'
   tag stig_id: 'UBTU-24-900070'
+  tag gtitle: 'SRG-OS-000064-GPOS-00033'
   tag fix_id: 'F-74712r1066822_fix'
-  tag cci: ['CCI-000169', 'CCI-000130', 'CCI-000135', 'CCI-000172', 'CCI-002884']
-  tag nist: ['AU-12 a', 'AU-3 a', 'AU-3 (1)', 'AU-12 c', 'MA-4 (1) (a)']
+  tag 'documentable'
+  tag cci: ['CCI-000172']
+  tag nist: ['AU-12 c']
   tag 'host'
 
   audit_command = '/usr/bin/su'

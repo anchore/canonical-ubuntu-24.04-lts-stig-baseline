@@ -504,7 +504,7 @@ inputs:
   - name: system_activity_timeout
     description: The expected maximum delay in seconds before the system will lock the session
     type: Numeric
-    value: 900
+    value: 600
 
   
   - name: log_directory

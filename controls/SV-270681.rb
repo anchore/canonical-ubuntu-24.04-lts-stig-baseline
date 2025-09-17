@@ -21,12 +21,14 @@ For the changes to take effect, restart the "rsyslog" service with the following
  
 $ sudo systemctl restart rsyslog.service'
   impact 0.5
+  tag check_id: 'C-74714r1066530_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000032-GPOS-00013'
   tag gid: 'V-270681'
   tag rid: 'SV-270681r1066532_rule'
   tag stig_id: 'UBTU-24-200090'
+  tag gtitle: 'SRG-OS-000032-GPOS-00013'
   tag fix_id: 'F-74615r1066531_fix'
+  tag 'documentable'
   tag cci: ['CCI-000067']
   tag nist: ['AC-17 (1)']
   tag 'host'

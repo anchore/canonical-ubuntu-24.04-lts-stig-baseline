@@ -1,11 +1,11 @@
 control 'SV-270650' do
-  title 'Ubuntu 24.04 LTS must configure AIDE to preform file integrity checking on the file system.'
-  desc 'Without verification, security functions may not operate correctly and the failure may go unnoticed. Security function is defined as the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. Security functionality includes, but is not limited to, establishing system accounts, configuring access authorizations (i.e., permissions, privileges), setting events to be audited, and setting intrusion detection parameters. 
- 
+  title 'Ubuntu 24.04 LTS must configure AIDE to perform file integrity checking on the file system.'
+  desc 'Without verification, security functions may not operate correctly and the failure may go unnoticed. Security function is defined as the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. Security functionality includes, but is not limited to, establishing system accounts, configuring access authorizations (i.e., permissions, privileges), setting events to be audited, and setting intrusion detection parameters.
+
 This requirement applies to Ubuntu 24.04 LTS performing security function verification/testing and/or systems and environments that require this functionality.'
   desc 'check', 'Note: If AIDE is not installed, this finding is not applicable.
 
-Verify Advanced Intrusion Detection Environment (AIDE) is configured on the system by preforming a manual check:
+Verify Advanced Intrusion Detection Environment (AIDE) is configured on the system by performing a manual check:
 
 $ sudo aide -c /etc/aide/aide.conf --check
 
@@ -45,7 +45,11 @@ Done.'
   tag cci: ['CCI-002696']
   tag nist: ['SI-6 a']
 
-  describe package('aide') do
-    it { should be_installed }
+  only_if('Skipping as AIDE is not installed so control not applicable.', impact: 0.0) do
+    package('aide').installed?
+  end
+
+  describe 'Manual verification is needed' do
+    skip 'Manual verification is needed'
   end
 end

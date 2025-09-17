@@ -59,4 +59,16 @@ $ sudo apt install -y libnss-sss'
   tag 'documentable'
   tag cci: ['CCI-004046', 'CCI-004047', 'CCI-000765', 'CCI-000766']
   tag nist: ['IA-2 (6) (a)', 'IA-2 (6) (b)', 'IA-2 (1)', 'IA-2 (2)']
+
+  describe package('sssd') do
+    it { should be_installed }
+  end
+
+  describe package('libpam-sss') do
+    it { should be_installed }
+  end
+
+  describe package('libnss-sss') do
+    it { should be_installed }
+  end
 end

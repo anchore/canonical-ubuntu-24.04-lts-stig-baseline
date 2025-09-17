@@ -60,6 +60,10 @@ $  sudo cp -f /usr/share/aide/config/cron.daily/aide /etc/cron.daily/dailyaidech
   tag cci: ['CCI-002699']
   tag nist: ['SI-6 b']
 
+  only_if('Skipping as AIDE is not installed so control not applicable.', impact: 0.0) do
+    package('aide').installed?
+  end
+
   describe('Verify that the Advanced Intrusion Detection Environment (AIDE) default script used to check file integrity each 30 days or less is unchanged.') do
      skip('manual test')
    end

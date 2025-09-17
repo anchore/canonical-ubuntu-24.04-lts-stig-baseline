@@ -44,15 +44,16 @@ Update the GDM with the new configuration:
 $ sudo dconf update 
 $ sudo systemctl restart gdm3)
   impact 0.5
+  tag check_id: 'C-74726r1066566_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000023-GPOS-00006'
-  tag satisfies: ['SRG-OS-000023-GPOS-00006', 'SRG-OS-000228-GPOS-00088']
   tag gid: 'V-270693'
   tag rid: 'SV-270693r1066568_rule'
   tag stig_id: 'UBTU-24-200660'
+  tag gtitle: 'SRG-OS-000023-GPOS-00006'
   tag fix_id: 'F-74627r1066567_fix'
-  tag cci: ['CCI-000048', 'CCI-001384', 'CCI-001385', 'CCI-001386', 'CCI-001387', 'CCI-001388']
-  tag nist: ['AC-8 a', 'AC-8 c 1', 'AC-8 c 2', 'AC-8 c 3']
+  tag 'documentable'
+  tag cci: ['CCI-000048']
+  tag nist: ['AC-8 a']
   tag 'host'
 
   no_gui = command('ls /usr/share/xsessions/*').stderr.match?(/No such file or directory/)

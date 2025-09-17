@@ -41,4 +41,18 @@ Edit "/etc/audit/auditd.conf" and set the "space_left" parameter to be at least 
   tag 'documentable'
   tag cci: ['CCI-001855']
   tag nist: ['AU-5 (1)']
+
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
+  }
+
+  if input('alternative_logging_method') != ''
+    describe 'manual check' do
+      skip 'Manual check required. Ask the administrator to indicate how logging is done for this system.'
+    end
+  else
+    describe auditd_conf do
+      its('space_left.to_i') { should cmp >= input('audit_storage_threshold') }
+    end
+  end
 end

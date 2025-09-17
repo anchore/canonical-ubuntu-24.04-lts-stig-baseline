@@ -44,4 +44,10 @@ $ sudo systemctl start sssd.service'
   tag 'documentable'
   tag cci: ['CCI-004046', 'CCI-004047', 'CCI-000765', 'CCI-000766']
   tag nist: ['IA-2 (6) (a)', 'IA-2 (6) (b)', 'IA-2 (1)', 'IA-2 (2)']
+  
+  describe service('sssd') do
+    it { should be_installed }
+    it { should be_enabled }
+    it { should be_running }
+  end
 end

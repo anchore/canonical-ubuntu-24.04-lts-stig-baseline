@@ -30,14 +30,16 @@ If any of the seven audit tools do not have appropriate selection lines, this is
 /sbin/audispd p+i+n+u+g+s+b+acl+xattrs+sha512 
 /sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512'
   impact 0.5
+  tag check_id: 'C-74864r1066980_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000278-GPOS-00108'
   tag gid: 'V-270831'
   tag rid: 'SV-270831r1066982_rule'
   tag stig_id: 'UBTU-24-90890'
+  tag gtitle: 'SRG-OS-000278-GPOS-00108'
   tag fix_id: 'F-74765r1066981_fix'
-  tag cci: ['CCI-001496', 'CCI-001493', 'CCI-001494', 'CCI-001495']
-  tag nist: ['AU-9 (3)', 'AU-9 a', 'AU-9']
+  tag 'documentable'
+  tag cci: ['CCI-001496']
+  tag nist: ['AU-9 (3)']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

@@ -21,4 +21,9 @@ If the audit system is not set to be immutable by adding the "-e 2" option to th
   tag 'documentable'
   tag cci: ['CCI-000163']
   tag nist: ['AU-9 a']
+
+  describe file('/etc/audit/audit.rules') do
+    it { should exist }
+    it { should include '-e 2' }
+  end
 end

@@ -36,4 +36,18 @@ Replace "[audit_tool]" with each audit tool not group-owned by root.'
   tag 'documentable'
   tag cci: ['CCI-001494', 'CCI-001493']
   tag nist: ['AU-9', 'AU-9 a']
+
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
+  }
+
+  audit_tools = ['/sbin/auditctl', '/sbin/aureport', '/sbin/ausearch', '/sbin/autrace', '/sbin/auditd', '/sbin/rsyslogd', '/sbin/augenrules']
+
+  failing_tools = audit_tools.reject { |at| file(at).owned_by?('root') }
+
+  describe 'Audit executables' do
+    it 'should be owned by root' do
+      expect(failing_tools).to be_empty, "Failing tools:\n\t- #{failing_tools.join("\n\t- ")}"
+    end
+  end
 end

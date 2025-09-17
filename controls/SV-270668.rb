@@ -6,7 +6,9 @@ Remote access (e.g., RDP) is access to DOD nonpublic information systems by an a
  
 Local maintenance and diagnostic activities are those activities carried out by individuals physically present at the information system or information system component and not communicating across a network connection.  
  
-Encrypting information for transmission protects information from unauthorized disclosure and modification. Cryptographic mechanisms implemented to protect information integrity include, for example, cryptographic hash functions that have common application in digital signatures, checksums, and message authentication codes.'
+Encrypting information for transmission protects information from unauthorized disclosure and modification. Cryptographic mechanisms implemented to protect information integrity include, for example, cryptographic hash functions that have common application in digital signatures, checksums, and message authentication codes.
+
+'
   desc 'check', 'Verify the SSH daemon is configured to only use MACs that employ FIPS 140-3 approved ciphers with the following command:
 
 $ grep -irs macs /etc/ssh/sshd_config*
@@ -23,15 +25,17 @@ Restart the "sshd" service for changes to take effect:
 
 $ sudo systemctl restart sshd'
   impact 0.5
+  tag check_id: 'C-74701r1067108_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000250-GPOS-00093'
-  tag satisfies: ['SRG-OS-000250-GPOS-00093', 'SRG-OS-000393-GPOS-00173', 'SRG-OS-000394-GPOS-00174', 'SRG-OS-000125-GPOS-00065', 'SRG-OS-000424-GPOS-00188']
   tag gid: 'V-270668'
   tag rid: 'SV-270668r1067110_rule'
   tag stig_id: 'UBTU-24-100830'
+  tag gtitle: 'SRG-OS-000250-GPOS-00093'
   tag fix_id: 'F-74602r1067109_fix'
-  tag cci: ['CCI-001453', 'CCI-002421', 'CCI-002890']
-  tag nist: ['AC-17 (2)', 'SC-8 (1)', 'MA-4 (6)']
+  tag satisfies: ['SRG-OS-000250-GPOS-00093', 'SRG-OS-000393-GPOS-00173', 'SRG-OS-000424-GPOS-00188']
+  tag 'documentable'
+  tag cci: ['CCI-001453', 'CCI-002890', 'CCI-002421']
+  tag nist: ['AC-17 (2)', 'MA-4 (6)', 'SC-8 (1)']
   tag 'host'
   tag 'container-conditional'
 

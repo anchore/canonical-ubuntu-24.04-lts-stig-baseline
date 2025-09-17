@@ -25,4 +25,8 @@ $ sudo apt install -y libpam-pkcs11'
   tag 'documentable'
   tag cci: ['CCI-001953']
   tag nist: ['IA-2 (12)']
+
+  describe package('libpam-pkcs11 ') do
+    it { should be_installed }
+  end
 end

@@ -27,4 +27,8 @@ $ sudo systemctl restart sshd'
   tag 'documentable'
   tag cci: ['CCI-000068']
   tag nist: ['AC-17 (2)']
+
+  describe('Verify that the specified algorithms are the only ones being used.') do
+    skip('manual test')
+  end
 end

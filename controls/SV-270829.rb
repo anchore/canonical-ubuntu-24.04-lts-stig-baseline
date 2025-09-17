@@ -1,8 +1,10 @@
 control 'SV-270829' do
   title 'Ubuntu 24.04 LTS must permit only authorized groups ownership of the audit log files.'
-  desc 'Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.  
-  
-Audit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.'
+  desc 'Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality. 
+ 
+Audit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.
+
+'
   desc 'check', 'Verify the group owner is set to own newly created audit logs in the audit configuration file with the following command: 
 
 $ sudo grep -iw log_group /etc/audit/auditd.conf
@@ -32,15 +34,17 @@ Signal the audit daemon to reload the configuration file to update the group own
 
 $ sudo systemctl kill auditd -s SIGHUP)
   impact 0.5
+  tag check_id: 'C-74862r1066974_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000057-GPOS-00027'
-  tag satisfies: ['SRG-OS-000057-GPOS-00027', 'SRG-OS-000058-GPOS-00028', 'SRG-OS-000059-GPOS-00029', 'SRG-OS-000206-GPOS-00084']
   tag gid: 'V-270829'
   tag rid: 'SV-270829r1066976_rule'
   tag stig_id: 'UBTU-24-901350'
+  tag gtitle: 'SRG-OS-000057-GPOS-00027'
   tag fix_id: 'F-74763r1066975_fix'
-  tag cci: ['CCI-000162', 'CCI-000163', 'CCI-000164', 'CCI-001314']
-  tag nist: ['AU-9', 'AU-9 a', 'SI-11 b']
+  tag satisfies: ['SRG-OS-000057-GPOS-00027', 'SRG-OS-000058-GPOS-00028', 'SRG-OS-000059-GPOS-00029']
+  tag 'documentable'
+  tag cci: ['CCI-000162', 'CCI-000163', 'CCI-000164']
+  tag nist: ['AU-9 a', 'AU-9 a', 'AU-9 a']
   tag 'host'
 
   if virtualization.system.eql?('docker')

@@ -37,4 +37,24 @@ $ export TMOUT=600'
   tag 'documentable'
   tag cci: ['CCI-002361']
   tag nist: ['AC-12']
+
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
+  }
+
+  system_inactivity_timeout = input('system_activity_timeout')
+
+  tmout_lines = command('grep -i tmout /etc/bash.bashrc /etc/profile.d/*').stdout.strip
+  tmout_value = tmout_lines.match(/^[^#]+TMOUT\s*=\s*(\d+)/i)
+
+  describe 'The system' do
+    it 'should set a TMOUT value' do
+      expect(tmout_value).to_not be_nil, 'No TMOUT value set in /etc/bash.bashrc or /etc/profile.d/'
+    end
+    unless tmout_value.nil?
+      it "should exit after #{system_inactivity_timeout} seconds of inactivity" do
+        expect(tmout_value.captures.first.to_i).to be <= system_inactivity_timeout
+      end
+    end
+  end
 end

@@ -1,8 +1,10 @@
 control 'SV-270728' do
   title 'Ubuntu 24.04 LTS must enforce password complexity by requiring that at least one numeric character be used.'
-  desc 'Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.  
-  
-Password complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.'
+  desc 'Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. 
+ 
+Password complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.
+
+'
   desc 'check', 'Verify Ubuntu 24.04 LTS enforces password complexity by requiring that at least one numeric character be used. 
  
 Determine if the field "dcredit" is set in the "/etc/security/pwquality.conf" file with the following command: 
@@ -17,14 +19,17 @@ Add or update the "/etc/security/pwquality.conf" file to contain the "dcredit" p
  
 dcredit=-1'
   impact 0.5
+  tag check_id: 'C-74761r1066671_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000071-GPOS-00039'
   tag gid: 'V-270728'
   tag rid: 'SV-270728r1066673_rule'
   tag stig_id: 'UBTU-24-400280'
+  tag gtitle: 'SRG-OS-000071-GPOS-00039'
   tag fix_id: 'F-74662r1066672_fix'
-  tag cci: ['CCI-000194', 'CCI-004065', 'CCI-004066']
-  tag nist: ['IA-5 (1) (a)', 'IA-5 (1) (g)', 'IA-5 (1) (h)']
+  tag satisfies: ['SRG-OS-000071-GPOS-00039', 'SRG-OS-000730-GPOS-00190']
+  tag 'documentable'
+  tag cci: ['CCI-004065', 'CCI-004066']
+  tag nist: ['IA-5 (1) (g)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

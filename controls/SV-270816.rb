@@ -35,14 +35,16 @@ $ sudo sed -i -E 's@^(log_file\s*=\s*).*@\1 <log mountpoint>/audit.log@' /etc/au
  
 where <log mountpoint> is the aforementioned mount point.)
   impact 0.3
+  tag check_id: 'C-74849r1066935_chk'
   tag severity: 'low'
-  tag gtitle: 'SRG-OS-000341-GPOS-00132'
   tag gid: 'V-270816'
   tag rid: 'SV-270816r1066937_rule'
   tag stig_id: 'UBTU-24-900920'
+  tag gtitle: 'SRG-OS-000341-GPOS-00132'
   tag fix_id: 'F-74750r1066936_fix'
-  tag cci: ['CCI-001849', 'CCI-001851']
-  tag nist: ['AU-4', 'AU-4 (1)']
+  tag 'documentable'
+  tag cci: ['CCI-001849']
+  tag nist: ['AU-4']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

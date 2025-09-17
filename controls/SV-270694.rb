@@ -79,4 +79,8 @@ Note: The "ssh_confirm.sh" script is provided as a supplemental file to this doc
   tag 'documentable'
   tag cci: ['CCI-000050']
   tag nist: ['AC-8 b']
+
+  describe 'Verification of DoD Consent acknowledgment script must be done manually.' do
+    skip 'Verification of DoD Consent acknowledgment script must be done manually.'
+  end
 end

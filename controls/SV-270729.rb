@@ -4,7 +4,9 @@ control 'SV-270729' do
  
 The number of changed characters refers to the number of changes required with respect to the total number of positions in the current password. In other words, characters may be the same within the two passwords; however, the positions of the like characters must be different. 
  
-If the password length is an odd number, then number of changed characters must be rounded up. For example, a password length of 15 characters must require the change of at least eight characters.'
+If the password length is an odd number, then number of changed characters must be rounded up. For example, a password length of 15 characters must require the change of at least eight characters.
+
+'
   desc 'check', 'Verify Ubuntu 24.04 LTS requires the change of at least eight characters when passwords are changed with the following command:
  
 $ grep -i "difok" /etc/security/pwquality.conf
@@ -24,9 +26,10 @@ difok=8'
   tag stig_id: 'UBTU-24-400290'
   tag gtitle: 'SRG-OS-000072-GPOS-00040'
   tag fix_id: 'F-74663r1066675_fix'
+  tag satisfies: ['SRG-OS-000072-GPOS-00040', 'SRG-OS-000730-GPOS-00190']
   tag 'documentable'
-  tag cci: ['CCI-000195', 'CCI-004065', 'CCI-004066']
-  tag nist: ['IA-5 (1) (b)', 'IA-5 (1) (g)', 'IA-5 (1) (h)']
+  tag cci: ['CCI-004065', 'CCI-004066']
+  tag nist: ['IA-5 (1) (g)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

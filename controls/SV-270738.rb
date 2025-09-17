@@ -25,6 +25,33 @@ If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_pkcs11
   tag gtitle: 'SRG-OS-000384-GPOS-00167'
   tag fix_id: 'F-74672r1066702_fix'
   tag 'documentable'
-  tag cci: ['CCI-001991', 'CCI-004068']
-  tag nist: ['IA-5 (2) (d)', 'IA-5 (2) (b) (2)']
+  tag cci: ['CCI-004068']
+  tag nist: ['IA-5 (2) (b) (2)']
+
+  describe file('/etc/pam_pkcs11/pam_pkcs11.conf') do
+    it { should exist }
+  end
+
+  # Only grab cert_policy_lines if the file exists
+  if file('/etc/pam_pkcs11/pam_pkcs11.conf').exist?
+    cert_policy_lines = file('/etc/pam_pkcs11/pam_pkcs11.conf').content.lines.select do |line|
+      line.strip.start_with?('cert_policy')
+    end
+
+    describe 'cert_policy settings' do
+      it 'should include crl_auto or crl_offline' do
+        found = cert_policy_lines.any? do |line|
+          line =~ /cert_policy\s*=.*(crl_auto|crl_offline)/
+        end
+        expect(found).to eq true
+      end
+    end
+  else
+    describe 'cert_policy settings' do
+      it 'Manual verification required' do
+        skip 'The configuration file /etc/pam_pkcs11/pam_pkcs11.conf does not exist, thus manual verification is required.'
+      end
+    end
+  end
+
 end

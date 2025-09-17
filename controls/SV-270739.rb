@@ -13,14 +13,16 @@ Edit/modify the following line in the "/etc/login.defs" file and set "ENCRYPT_ME
  
 ENCRYPT_METHOD SHA512'
   impact 0.5
+  tag check_id: 'C-74772r1067123_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000120-GPOS-00061'
   tag gid: 'V-270739'
   tag rid: 'SV-270739r1067124_rule'
   tag stig_id: 'UBTU-24-400400'
+  tag gtitle: 'SRG-OS-000120-GPOS-00061'
   tag fix_id: 'F-74673r1066705_fix'
-  tag cci: ['CCI-000196', 'CCI-000803']
-  tag nist: ['IA-5 (1) (c)', 'IA-7']
+  tag 'documentable'
+  tag cci: ['CCI-000803']
+  tag nist: ['IA-7']
   tag 'host'
   tag 'container'
 

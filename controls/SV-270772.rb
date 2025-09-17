@@ -26,14 +26,16 @@ After the line has been removed, the kernel settings from all system configurati
  
 $ sudo sysctl --system'
   impact 0.5
+  tag check_id: 'C-74805r1066803_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000433-GPOS-00193'
   tag gid: 'V-270772'
   tag rid: 'SV-270772r1066805_rule'
   tag stig_id: 'UBTU-24-700310'
+  tag gtitle: 'SRG-OS-000433-GPOS-00193'
   tag fix_id: 'F-74706r1066804_fix'
-  tag cci: ['CCI-002824', 'CCI-000366']
-  tag nist: ['SI-16', 'CM-6 b']
+  tag 'documentable'
+  tag cci: ['CCI-002824']
+  tag nist: ['SI-16']
   tag 'host'
 
   only_if('Control not applicable within a container', impact: 0.0) {

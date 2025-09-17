@@ -1,7 +1,7 @@
 control 'SV-270811' do
   title 'Ubuntu 24.04 LTS must generate audit records for the /var/run/utmp file.'
-  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  
-  
+  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. 
+ 
 Audit records can be generated from various components within the information system (e.g., module or policy filter).'
   desc 'check', %q(Verify Ubuntu 24.04 LTS generates audit records showing start and stop times for user access to the system via the "/var/run/utmp" file with the following command:
  
@@ -38,7 +38,7 @@ $ sudo augenrules --load'
       skip 'Control not applicable to a container'
     end
   else
-    @audit_file = '/var/run/wtmp'
+    @audit_file = '/var/run/utmp'
 
     audit_lines_exist = !auditd.lines.index { |line| line.include?(@audit_file) }.nil?
     if audit_lines_exist

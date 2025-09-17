@@ -24,8 +24,8 @@ APT::Get::AllowUnauthenticated "false";'
   tag gtitle: 'SRG-OS-000366-GPOS-00153'
   tag fix_id: 'F-74629r1066573_fix'
   tag 'documentable'
-  tag cci: ['CCI-001749', 'CCI-003992']
-  tag nist: ['CM-5 (3)', 'CM-14']
+  tag cci: ['CCI-003992']
+  tag nist: ['CM-14']
 
   describe directory('/etc/apt/apt.conf.d') do
     it { should exist }

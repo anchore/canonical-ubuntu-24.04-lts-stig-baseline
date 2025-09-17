@@ -13,14 +13,16 @@ Add the following line to the top of "/etc/pam.d/login":
  
 session     required      pam_lastlog.so showfailed'
   impact 0.3
+  tag check_id: 'C-74743r1066617_chk'
   tag severity: 'low'
-  tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag gid: 'V-270710'
   tag rid: 'SV-270710r1066619_rule'
   tag stig_id: 'UBTU-24-300024'
+  tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag fix_id: 'F-74644r1066618_fix'
-  tag cci: ['CCI-000366', 'CCI-000052']
-  tag nist: ['CM-6 b', 'AC-9']
+  tag 'documentable'
+  tag cci: ['CCI-000366']
+  tag nist: ['CM-6 b']
   tag 'host'
   tag 'container'
 

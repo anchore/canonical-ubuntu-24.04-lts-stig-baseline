@@ -14,13 +14,14 @@ If the rsh-server package is installed, this is a finding.'
  
 $ sudo apt remove rsh-server'
   impact 0.7
+  tag check_id: 'C-74681r1066431_chk'
   tag severity: 'high'
-  tag gtitle: 'SRG-OS-000095-GPOS-00049'
-  tag satisfies: ['SRG-OS-000095-GPOS-00049', 'SRG-OS-000074-GPOS-00042']
   tag gid: 'V-270648'
   tag rid: 'SV-270648r1066433_rule'
   tag stig_id: 'UBTU-24-100040'
+  tag gtitle: 'SRG-OS-000095-GPOS-00049'
   tag fix_id: 'F-74582r1066432_fix'
+  tag 'documentable'
   tag cci: ['CCI-000381']
   tag nist: ['CM-7 a']
   tag 'host'

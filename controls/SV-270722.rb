@@ -39,4 +39,20 @@ PubkeyAuthentication yes'
   tag 'documentable'
   tag cci: ['CCI-000765', 'CCI-000766']
   tag nist: ['IA-2 (1)', 'IA-2 (2)']
+
+  if virtualization.system.eql?('docker')
+    impact 0.0
+    describe 'Control not applicable to a container' do
+      skip 'Control not applicable to a container'
+    end
+  elsif input('pki_disabled')
+    impact 0.0
+    describe 'This system is not using PKI for authentication so the controls is Not Applicable.' do
+      skip 'This system is not using PKI for authentication so the controls is Not Applicable.'
+    end
+  else
+    describe sshd_config do
+      its('PubkeyAuthentication') { should cmp 'yes' }
+    end
+  end
 end

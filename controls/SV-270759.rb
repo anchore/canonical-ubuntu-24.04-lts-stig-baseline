@@ -23,4 +23,9 @@ $ sudo chown root /usr/bin/journalctl'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
+
+  describe file('/usr/bin/journalctl') do
+    it { should exist }
+    it { should be_owned_by 'root' }
+  end
 end

@@ -1,7 +1,7 @@
 control 'SV-270775' do
   title 'Ubuntu 24.04 LTS must be configured so that audit configuration files are not write-accessible by unauthorized users.'
-  desc "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events.  
-  
+  desc "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events. 
+ 
 Misconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one."
   desc 'check', 'Verify /etc/audit/audit.rules, /etc/audit/rules.d/*, and /etc/audit/auditd.conf files have a mode of "0640" or less permissive with the following command: 
  
@@ -24,12 +24,14 @@ If /etc/audit/audit.rule, /etc/audit/rules.d/*, or /etc/audit/auditd.conf files 
  
 $ sudo chmod -R 0640 /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*'
   impact 0.5
+  tag check_id: 'C-74808r1068368_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000063-GPOS-00032'
   tag gid: 'V-270775'
   tag rid: 'SV-270775r1068369_rule'
   tag stig_id: 'UBTU-24-900040'
+  tag gtitle: 'SRG-OS-000063-GPOS-00032'
   tag fix_id: 'F-74709r1066813_fix'
+  tag 'documentable'
   tag cci: ['CCI-000171']
   tag nist: ['AU-12 b']
   tag 'host'

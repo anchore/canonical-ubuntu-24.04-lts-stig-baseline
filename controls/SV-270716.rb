@@ -15,12 +15,14 @@ Edit the "UMASK" parameter in the "/etc/login.defs" file to match the example be
  
 UMASK 077'
   impact 0.5
+  tag check_id: 'C-74749r1066635_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000480-GPOS-00228'
   tag gid: 'V-270716'
   tag rid: 'SV-270716r1066637_rule'
   tag stig_id: 'UBTU-24-300030'
+  tag gtitle: 'SRG-OS-000480-GPOS-00228'
   tag fix_id: 'F-74650r1066636_fix'
+  tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
   tag 'host'

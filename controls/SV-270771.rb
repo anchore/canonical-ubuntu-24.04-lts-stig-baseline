@@ -1,7 +1,7 @@
 control 'SV-270771' do
   title 'Ubuntu 24.04 LTS must implement nonexecutable data to protect its memory from unauthorized code execution.'
-  desc 'Some adversaries launch attacks with the intent of executing code in nonexecutable regions of memory or in memory locations that are prohibited. Security safeguards employed to protect memory include, for example, data execution prevention and address space layout randomization. Data execution prevention safeguards can either be hardware-enforced or software-enforced with hardware providing the greater strength of mechanism.  
-  
+  desc 'Some adversaries launch attacks with the intent of executing code in nonexecutable regions of memory or in memory locations that are prohibited. Security safeguards employed to protect memory include, for example, data execution prevention and address space layout randomization. Data execution prevention safeguards can either be hardware-enforced or software-enforced with hardware providing the greater strength of mechanism. 
+ 
 Examples of attacks are buffer overflow attacks.'
   desc 'check', 'Verify the NX (no-execution) bit flag is set on the system with the following command: 
  
@@ -18,12 +18,14 @@ If "flags" does not contain the "nx" flag, this is a finding.'
  
 If "nx" is not showing up in "/proc/cpuinfo", and the system's BIOS setup configuration permits toggling the No Execution bit, set it to "enable".)
   impact 0.5
+  tag check_id: 'C-74804r1066800_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000433-GPOS-00192'
   tag gid: 'V-270771'
   tag rid: 'SV-270771r1066802_rule'
   tag stig_id: 'UBTU-24-700300'
+  tag gtitle: 'SRG-OS-000433-GPOS-00192'
   tag fix_id: 'F-74705r1066801_fix'
+  tag 'documentable'
   tag cci: ['CCI-002824']
   tag nist: ['SI-16']
   tag 'host'

@@ -2,7 +2,9 @@ control 'SV-270674' do
   title 'Ubuntu 24.04 LTS must allow users to directly initiate a session lock for all connection types.'
   desc 'A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence. 
  
-The session lock is implemented at the point where session activity can be determined. Rather than be forced to wait for a period of time to expire before the user session can be locked, Ubuntu 24.04 LTSs need to provide users with the ability to manually invoke a session lock so users may secure their session if they need to temporarily vacate the immediate physical vicinity.'
+The session lock is implemented at the point where session activity can be determined. Rather than be forced to wait for a period of time to expire before the user session can be locked, Ubuntu 24.04 LTSs need to provide users with the ability to manually invoke a session lock so users may secure their session if they need to temporarily vacate the immediate physical vicinity.
+
+'
   desc 'check', 'Verify Ubuntu 24.04 LTS has the "vlock" package installed with the following command: 
  
 $ dpkg -l | grep vlock 
@@ -20,10 +22,10 @@ $ sudo apt install -y vlock'
   tag stig_id: 'UBTU-24-101000'
   tag gtitle: 'SRG-OS-000031-GPOS-00012'
   tag fix_id: 'F-74608r1067166_fix'
-  tag satisfies: ['SRG-OS-000030-GPOS-00011', 'SRG-OS-000031-GPOS-00012']
+  tag satisfies: ['SRG-OS-000031-GPOS-00012', 'SRG-OS-000030-GPOS-00011']
   tag 'documentable'
-  tag cci: ['CCI-000058', 'CCI-000060', 'CCI-000057']
-  tag nist: ['AC-11 a', 'AC-11 (1)']
+  tag cci: ['CCI-000060', 'CCI-000057']
+  tag nist: ['AC-11 (1)', 'AC-11 a']
 
   describe package('vlock') do
     it { should be_installed }

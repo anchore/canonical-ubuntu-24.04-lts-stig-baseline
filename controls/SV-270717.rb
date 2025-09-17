@@ -19,12 +19,14 @@ Restart the SSH daemon for the changes to take effect:
  
 $ sudo systemctl restart sshd.service'
   impact 0.7
+  tag check_id: 'C-74750r1067177_chk'
   tag severity: 'high'
-  tag gtitle: 'SRG-OS-000480-GPOS-00229'
   tag gid: 'V-270717'
   tag rid: 'SV-270717r1067177_rule'
   tag stig_id: 'UBTU-24-300031'
+  tag gtitle: 'SRG-OS-000480-GPOS-00229'
   tag fix_id: 'F-74651r1066639_fix'
+  tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
   tag 'host'

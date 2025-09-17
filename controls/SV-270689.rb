@@ -2,7 +2,9 @@ control 'SV-270689' do
   title 'Ubuntu 24.04 LTS must prevent all software from executing at higher privilege levels than users executing the software and the audit system must be configured to audit the execution of privileged functions.'
   desc 'In certain situations, software applications/programs need to execute with elevated privileges to perform required functions. However, if the privileges required for execution are at a higher level than the privileges assigned to organizational users invoking such applications/programs, those users are indirectly provided with greater privileges than assigned by the organizations. 
  
-Some programs and processes are required to operate at a higher privilege level and therefore, must be excluded from the organization-defined software list after review.'
+Some programs and processes are required to operate at a higher privilege level and therefore, must be excluded from the organization-defined software list after review.
+
+'
   desc 'check', 'Verify Ubuntu 24.04 LTS audits the execution of privilege functions by auditing the "execve" system call with the following command: 
  
 $ sudo auditctl -l | grep execve
@@ -31,13 +33,15 @@ To reload the rules file, issue the following command:
  
 $ sudo augenrules --load'
   impact 0.5
+  tag check_id: 'C-74722r1066554_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000326-GPOS-00126'
-  tag satisfies: ['SRG-OS-000326-GPOS-00126', 'SRG-OS-000327-GPOS-00127', 'SRG-OS-000755-GPOS-00220']
   tag gid: 'V-270689'
   tag rid: 'SV-270689r1066556_rule'
   tag stig_id: 'UBTU-24-200580'
+  tag gtitle: 'SRG-OS-000326-GPOS-00126'
   tag fix_id: 'F-74623r1066555_fix'
+  tag satisfies: ['SRG-OS-000326-GPOS-00126', 'SRG-OS-000327-GPOS-00127', 'SRG-OS-000755-GPOS-00220']
+  tag 'documentable'
   tag cci: ['CCI-002233', 'CCI-002234', 'CCI-004188']
   tag nist: ['AC-6 (8)', 'AC-6 (9)', 'MA-3 (5)']
   tag 'host'

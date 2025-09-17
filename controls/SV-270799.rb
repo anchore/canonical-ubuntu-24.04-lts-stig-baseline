@@ -21,15 +21,16 @@ To reload the rules file, issue the following command:
  
 $ sudo augenrules --load'
   impact 0.5
+  tag check_id: 'C-74832r1066884_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000064-GPOS-00033'
-  tag satisfies: ['SRG-OS-000062-GPOS-00031', 'SRG-OS-000037-GPOS-00015', 'SRG-OS-000042-GPOS-00020', 'SRG-OS-000392-GPOS-00172', 'SRG-OS-000462-GPOS-00206', 'SRG-OS-000471-GPOS-00215', 'SRG-OS-000064-GPOS-00033']
   tag gid: 'V-270799'
   tag rid: 'SV-270799r1066886_rule'
   tag stig_id: 'UBTU-24-900280'
+  tag gtitle: 'SRG-OS-000064-GPOS-00033'
   tag fix_id: 'F-74733r1066885_fix'
-  tag cci: ['CCI-000169', 'CCI-000130', 'CCI-000135', 'CCI-000172', 'CCI-002884']
-  tag nist: ['AU-12 a', 'AU-3 a', 'AU-3 (1)', 'AU-12 c', 'MA-4 (1) (a)']
+  tag 'documentable'
+  tag cci: ['CCI-000172']
+  tag nist: ['AU-12 c']
   tag 'host'
 
   audit_command = '/usr/sbin/unix_update'

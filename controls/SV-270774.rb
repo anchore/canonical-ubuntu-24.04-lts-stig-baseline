@@ -19,4 +19,9 @@ If the installed version of Ubuntu 24.04 LTS is not supported, this is a finding
   tag 'documentable'
   tag cci: ['CCI-002605']
   tag nist: ['SI-2 c']
+
+  describe file('/etc/lsb-release') do
+    it { should exist }
+    it { should include 'LTS' }
+  end
 end

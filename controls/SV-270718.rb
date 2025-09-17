@@ -2,7 +2,9 @@ control 'SV-270718' do
   title 'Ubuntu 24.04 LTS must disable automatic mounting of Universal Serial Bus (USB) mass storage driver.'
   desc 'Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.
 
-Peripherals include, but are not limited to, devices such as flash drives, external storage, and printers.'
+Peripherals include, but are not limited to, devices such as flash drives, external storage, and printers.
+
+'
   desc 'check', 'Verify that Ubuntu 24.04 LTS disables ability to load the USB storage kernel module with the following command:
 
 $ sudo grep usb-storage /etc/modprobe.d/* | grep "/bin/true" 
@@ -31,9 +33,10 @@ $ sudo su -c "echo blacklist usb-storage >> /etc/modprobe.d/DISASTIG.conf"'
   tag stig_id: 'UBTU-24-300039'
   tag gtitle: 'SRG-OS-000690-GPOS-00140'
   tag fix_id: 'F-74652r1066642_fix'
+  tag satisfies: ['SRG-OS-000690-GPOS-00140', 'SRG-OS-000378-GPOS-00163']
   tag 'documentable'
-  tag cci: ['CCI-001958', 'CCI-003959']
-  tag nist: ['IA-3', 'CM-7 (9) (b)']
+  tag cci: ['CCI-003959', 'CCI-001958']
+  tag nist: ['CM-7 (9) (b)', 'IA-3']
 
   if virtualization.system.eql?('docker')
     impact 0.0

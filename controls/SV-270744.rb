@@ -1,6 +1,8 @@
 control 'SV-270744' do
   title 'Ubuntu 24.04 LTS must implement NIST FIPS-validated cryptography to protect classified information and for the following: To provision digital signatures, to generate cryptographic hashes, and to protect unclassified information requiring confidentiality and cryptographic protection in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.'
-  desc 'Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. Ubuntu 24.04 LTS must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated.'
+  desc 'Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. Ubuntu 24.04 LTS must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated.
+
+'
   desc 'check', 'Verify the system is configured to run in FIPS mode with the following command: 
  
 $ grep -i 1 /proc/sys/crypto/fips_enabled
@@ -27,10 +29,10 @@ $ sudo pro enable fips-updates'
   tag stig_id: 'UBTU-24-600030'
   tag gtitle: 'SRG-OS-000478-GPOS-00223'
   tag fix_id: 'F-74678r1066720_fix'
-  tag satisfies: ['SRG-OS-000396-GPOS-00176', 'SRG-OS-000393-GPOS-00173', 'SRG-OS-000394-GPOS-00174', 'SRG-OS-000478-GPOS-00223']
+  tag satisfies: ['SRG-OS-000478-GPOS-00223', 'SRG-OS-000396-GPOS-00176']
   tag 'documentable'
-  tag cci: ['CCI-002450', 'CCI-002890', 'CCI-003123']
-  tag nist: ['SC-13 b', 'MA-4 (6)']
+  tag cci: ['CCI-002450']
+  tag nist: ['SC-13 b']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

@@ -1,9 +1,9 @@
 control 'SV-270809' do
   title 'Ubuntu 24.04 LTS must generate audit records for any successful/unsuccessful use of unlink, unlinkat, rename, renameat, and rmdir system calls.'
-  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  
-  
-Audit records can be generated from various components within the information system (e.g., module or policy filter). 
+  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. 
  
+Audit records can be generated from various components within the information system (e.g., module or policy filter).
+
 The system call rules are loaded into a matching engine that intercepts each syscall that all programs on the system makes. Therefore, it is very important to only use syscall rules when absolutely necessary since these affect performance. The more rules, the bigger the performance hit. The performance is helped, though, by combining syscalls into one rule whenever possible.'
   desc 'check', %q(Verify Ubuntu 24.04 LTS generates audit records for any successful/unsuccessful use of "unlink", "unlinkat", "rename", "renameat", and "rmdir" system calls with the following command:
  
@@ -29,15 +29,16 @@ To reload the rules file, issue the following command:
  
 $ sudo augenrules --load'
   impact 0.5
+  tag check_id: 'C-74842r1068387_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000468-GPOS-00212'
-  tag satisfies: ['SRG-OS-000062-GPOS-00031', 'SRG-OS-000037-GPOS-00015', 'SRG-OS-000042-GPOS-00020', 'SRG-OS-000392-GPOS-00172', 'SRG-OS-000462-GPOS-00206', 'SRG-OS-000471-GPOS-00215', 'SRG-OS-000466-GPOS-00210', 'SRG-OS-000467-GPOS-00211', 'SRG-OS-000468-GPOS-00212']
   tag gid: 'V-270809'
   tag rid: 'SV-270809r1068388_rule'
   tag stig_id: 'UBTU-24-900540'
+  tag gtitle: 'SRG-OS-000468-GPOS-00212'
   tag fix_id: 'F-74743r1066915_fix'
-  tag cci: ['CCI-000169', 'CCI-000130', 'CCI-000135', 'CCI-000172', 'CCI-002884']
-  tag nist: ['AU-12 a', 'AU-3 a', 'AU-3 (1)', 'AU-12 c', 'MA-4 (1) (a)']
+  tag 'documentable'
+  tag cci: ['CCI-000172']
+  tag nist: ['AU-12 c']
   tag 'host'
 
   audit_syscalls = ['unlink', 'unlinkat', 'rename', 'renameat', 'rmdir']

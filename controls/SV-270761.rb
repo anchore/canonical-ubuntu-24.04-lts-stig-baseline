@@ -32,4 +32,12 @@ Note: The system must be restarted for these settings to take effect.'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
+
+  describe directory('/run/log') do
+    its('group') { should eq 'root' }
+  end
+  describe directory('/var/log') do
+    it { should exist }
+    its('group') { should eq 'root' }
+  end
 end

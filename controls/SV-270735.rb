@@ -1,12 +1,14 @@
 control 'SV-270735' do
   title 'Ubuntu 24.04 LTS, for PKI-based authentication, SSSD must validate certificates by constructing a certification path (which includes status information) to an accepted trust anchor.'
-  desc 'Without path validation, an informed trust decision by the relying party cannot be made when presented with any certificate not already explicitly trusted.  
-  
-A trust anchor is an authoritative entity represented via a public key and associated data. It is used in the context of public key infrastructures, X.509 digital certificates, and DNSSEC.  
-  
-When there is a chain of trust, usually the top entity to be trusted becomes the trust anchor; it can be, for example, a certification authority (CA). A certification path starts with the subject certificate and proceeds through a number of intermediate certificates up to a trusted root certificate, typically issued by a trusted CA.  
-  
-This requirement verifies that a certification path to an accepted trust anchor is used for certificate validation and that the path includes status information. Path validation is necessary for a relying party to make an informed trust decision when presented with any certificate not already explicitly trusted. Status information for certification paths includes certificate revocation lists or online certificate status protocol responses. Validation of the certificate status information is out of scope for this requirement.'
+  desc 'Without path validation, an informed trust decision by the relying party cannot be made when presented with any certificate not already explicitly trusted. 
+ 
+A trust anchor is an authoritative entity represented via a public key and associated data. It is used in the context of public key infrastructures, X.509 digital certificates, and DNSSEC. 
+ 
+When there is a chain of trust, usually the top entity to be trusted becomes the trust anchor; it can be, for example, a certification authority (CA). A certification path starts with the subject certificate and proceeds through a number of intermediate certificates up to a trusted root certificate, typically issued by a trusted CA. 
+ 
+This requirement verifies that a certification path to an accepted trust anchor is used for certificate validation and that the path includes status information. Path validation is necessary for a relying party to make an informed trust decision when presented with any certificate not already explicitly trusted. Status information for certification paths includes certificate revocation lists or online certificate status protocol responses. Validation of the certificate status information is out of scope for this requirement.
+
+'
   desc 'check', %q(Verify Ubuntu 24.04 LTS, for PKI-based authentication, has valid certificates by constructing a certification path to an accepted trust anchor. 
 
 Ensure the pam service is listed under [sssd] with the following command:
@@ -49,15 +51,17 @@ ldap_user_certificate = usercertificate;binary
 certificate_verification = ca_cert,ocsp
 ca_cert = /etc/ssl/certs/ca-certificates.crt'
   impact 0.5
+  tag check_id: 'C-74768r1066692_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000066-GPOS-00034'
-  tag satisfies: ['SRG-OS-000066-GPOS-00034', 'SRG-OS-000384-GPOS-00167', 'SRG-OS-000775-GPOS-00230']
   tag gid: 'V-270735'
   tag rid: 'SV-270735r1066694_rule'
   tag stig_id: 'UBTU-24-400360'
+  tag gtitle: 'SRG-OS-000066-GPOS-00034'
   tag fix_id: 'F-74669r1066693_fix'
-  tag cci: ['CCI-000185', 'CCI-001991', 'CCI-004909']
-  tag nist: ['IA-5 (2) (a)', 'IA-5 (2) (b) (1)', 'IA-5 (2) (d)', 'SC-17 b']
+  tag satisfies: ['SRG-OS-000066-GPOS-00034', 'SRG-OS-000775-GPOS-00230']
+  tag 'documentable'
+  tag cci: ['CCI-000185', 'CCI-004909']
+  tag nist: ['IA-5 (2) (b) (1)', 'SC-17 b']
   tag 'host'
   tag 'container'
 

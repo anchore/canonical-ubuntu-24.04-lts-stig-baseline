@@ -24,31 +24,45 @@ Ask the system administrator for the site or program PPSM Components Local Servi
 If there are any additional ports, protocols, or services that are not included in the PPSM CLSA, this is a finding. 
  
 If there are any ports, protocols, or services that are prohibited by the PPSM CAL, this is a finding.'
-  desc 'fix', 'Add all ports, protocols, or services allowed by the PPSM CLSA by using the following command:  
-  
-     $ sudo ufw allow <direction> <port/protocol/service>  
-  
-Where the direction is "in" or "out" and the port is the one corresponding to the protocol or service allowed.  
-  
-To deny access to ports, protocols, or services, use:  
-  
-     $ sudo ufw deny <direction> <port/protocol/service>'
+  desc 'fix', 'Add all ports, protocols, or services allowed by the PPSM CLSA by using the following command: 
+ 
+$ sudo ufw allow <direction> <port/protocol/service> 
+ 
+Where the direction is "in" or "out" and the port is the one corresponding to the protocol or service allowed. 
+ 
+To deny access to ports, protocols, or services, use: 
+ 
+$ sudo ufw deny <direction> <port/protocol/service>'
   impact 0.5
+  tag check_id: 'C-74752r1066644_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000096-GPOS-00050'
   tag gid: 'V-270719'
   tag rid: 'SV-270719r1067172_rule'
   tag stig_id: 'UBTU-24-300041'
+  tag gtitle: 'SRG-OS-000096-GPOS-00050'
   tag fix_id: 'F-74653r1066645_fix'
+  tag 'documentable'
   tag cci: ['CCI-000382']
   tag nist: ['CM-7 b']
   tag 'host'
 
-  ufw_status = command('ufw status').stdout.strip.lines.first
-  value = ufw_status.split(':')[1].strip
+  describe package('ufw') do
+    it { should be_installed }
+  end
 
-  describe 'UFW status' do
-    subject { value }
-    it { should cmp 'active' }
+  if package('ufw').installed?
+    ufw_status = command('ufw status').stdout.strip.lines.first
+    value = ufw_status.split(':')[1].strip
+
+    describe 'UFW status' do
+      subject { value }
+      it { should cmp 'active' }
+    end
+  else
+    describe 'UFW status' do
+      it 'Manual check required' do
+        skip 'ufw is not installed, thus manual verification of firewall rules required'
+      end
+    end
   end
 end

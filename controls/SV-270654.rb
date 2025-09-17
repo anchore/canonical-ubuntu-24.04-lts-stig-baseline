@@ -24,10 +24,9 @@ $ sudo apt install -y ufw'
   tag stig_id: 'UBTU-24-100300'
   tag gtitle: 'SRG-OS-000297-GPOS-00115'
   tag fix_id: 'F-74588r1067142_fix'
-  tag satisfies: ['SRG-OS-000096-GPOS-00050', 'SRG-OS-000297-GPOS-00115']
   tag 'documentable'
-  tag cci: ['CCI-000382', 'CCI-002314']
-  tag nist: ['CM-7 b', 'AC-17 (1)']
+  tag cci: ['CCI-002314']
+  tag nist: ['AC-17 (1)']
   tag 'host'
 
   describe package('ufw') do

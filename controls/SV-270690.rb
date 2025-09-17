@@ -1,6 +1,8 @@
 control 'SV-270690' do
   title 'Ubuntu 24.04 LTS must automatically lock an account until the locked account is released by an administrator when three unsuccessful logon attempts have been made.'
-  desc 'By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced. Limits are imposed by locking the account.'
+  desc 'By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced. Limits are imposed by locking the account.
+
+'
   desc 'check', %q(Verify that Ubuntu 24.04 LTS utilizes the "pam_faillock" module with the following command:
 
 $ grep faillock /etc/pam.d/common-auth 
@@ -45,7 +47,7 @@ unlock_time = 0'
   tag stig_id: 'UBTU-24-200610'
   tag gtitle: 'SRG-OS-000021-GPOS-00005'
   tag fix_id: 'F-74624r1066558_fix'
-  tag satisfies: ['SRG-OS-000329-GPOS-00128', 'SRG-OS-000021-GPOS-00005']
+  tag satisfies: ['SRG-OS-000021-GPOS-00005', 'SRG-OS-000329-GPOS-00128']
   tag 'documentable'
   tag cci: ['CCI-000044', 'CCI-002238']
   tag nist: ['AC-7 a', 'AC-7 b']
@@ -53,8 +55,17 @@ unlock_time = 0'
   tag 'container'
 
   lockout_time = input('lockout_time')
+  fail_interval = input('fail_interval')
+
+  describe command('grep faillock /etc/pam.d/common-auth ') do
+    its('stdout') { should include "pam_faillock.so" }
+  end
 
   describe parse_config_file('/etc/security/faillock.conf') do
     its('unlock_time') { should cmp lockout_time }
+    its('audit') { should exist }
+    its('silent') { should exist }
+    its('deny') { should eq '3' }
+    its('fail_interval') { should cmp fail_interval}
   end
 end

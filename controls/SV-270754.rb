@@ -54,13 +54,18 @@ Rate-limiting can also be done on an interface. An example of adding a rate-limi
  
 $ sudo ufw limit in on eth0'
   impact 0.5
+  tag check_id: 'C-74787r1066749_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000420-GPOS-00186'
   tag gid: 'V-270754'
   tag rid: 'SV-270754r1066751_rule'
   tag stig_id: 'UBTU-24-600200'
+  tag gtitle: 'SRG-OS-000420-GPOS-00186'
   tag fix_id: 'F-74688r1066750_fix'
+  tag 'documentable'
   tag cci: ['CCI-002385']
-  tag nist: ['SC-5', 'SC-5 a']
-  tag 'host'
+  tag nist: ['SC-5 a']
+
+  describe 'UFW rate limits must be reviewed manually' do
+    skip 'UFW rate limits must be reviewed manually'
+  end
 end

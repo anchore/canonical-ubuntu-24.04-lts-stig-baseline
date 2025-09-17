@@ -31,8 +31,8 @@ $ sudo systemctl restart chrony.service'
   tag gtitle: 'SRG-OS-000356-GPOS-00144'
   tag fix_id: 'F-74686r1066744_fix'
   tag 'documentable'
-  tag cci: ['CCI-002046', 'CCI-004926']
-  tag nist: ['AU-8 (1) (b)', 'SC-45 (1) (b)']
+  tag cci: ['CCI-004926']
+  tag nist: ['SC-45 (1) (b)']
 
   file_path = input('chrony_config_file')
   found_file = file(file_path)

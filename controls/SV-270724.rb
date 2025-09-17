@@ -27,7 +27,7 @@ $ sudo passwd -l root'
   tag gtitle: 'SRG-OS-000109-GPOS-00056'
   tag fix_id: 'F-74658r1066660_fix'
   tag 'documentable'
-  tag cci: ['CCI-000770', 'CCI-004045']
+  tag cci: ['CCI-004045']
   tag nist: ['IA-2 (5)']
 
   describe.one do

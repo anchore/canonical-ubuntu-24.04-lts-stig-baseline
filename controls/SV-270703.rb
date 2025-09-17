@@ -14,12 +14,14 @@ If any system commands are returned that are not group-owned by a required syste
  
 $ sudo chgrp [SYSTEMACCOUNT] [FILE]'
   impact 0.5
+  tag check_id: 'C-74736r1066596_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag gid: 'V-270703'
   tag rid: 'SV-270703r1066598_rule'
   tag stig_id: 'UBTU-24-300013'
+  tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag fix_id: 'F-74637r1066597_fix'
+  tag 'documentable'
   tag cci: ['CCI-001499']
   tag nist: ['CM-5 (6)']
   tag 'host'

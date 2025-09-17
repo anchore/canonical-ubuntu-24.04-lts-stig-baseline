@@ -13,14 +13,16 @@ Add or update the following line in the "/etc/security/pwquality.conf" file to i
  
 dictcheck=1'
   impact 0.5
+  tag check_id: 'C-74737r1066599_chk'
   tag severity: 'medium'
-  tag gtitle: 'SRG-OS-000710-GPOS-00160'
   tag gid: 'V-270704'
   tag rid: 'SV-270704r1066601_rule'
   tag stig_id: 'UBTU-24-300014'
+  tag gtitle: 'SRG-OS-000710-GPOS-00160'
   tag fix_id: 'F-74638r1066600_fix'
-  tag cci: ['CCI-000366', 'CCI-004061']
-  tag nist: ['CM-6 b', 'IA-5 (1) (b)']
+  tag 'documentable'
+  tag cci: ['CCI-004061']
+  tag nist: ['IA-5 (1) (b)']
   tag 'host'
   tag 'container'
 

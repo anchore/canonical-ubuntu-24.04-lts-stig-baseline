@@ -8,7 +8,9 @@ Nonlocal maintenance and diagnostic activities are those activities conducted by
  
 Local maintenance and diagnostic activities are those activities carried out by individuals physically present at the information system or information system component and not communicating across a network connection.  
  
-Encrypting information for transmission protects information from unauthorized disclosure and modification. Cryptographic mechanisms implemented to protect information integrity include, for example, cryptographic hash functions that have common application in digital signatures, checksums, and message authentication codes.'
+Encrypting information for transmission protects information from unauthorized disclosure and modification. Cryptographic mechanisms implemented to protect information integrity include, for example, cryptographic hash functions that have common application in digital signatures, checksums, and message authentication codes.
+
+'
   desc 'check', %q(Verify that the SSH daemon is configured to implement only FIPS-approved algorithms with the following command:
 
 $ sudo grep -r 'Ciphers' /etc/ssh/sshd_config*
@@ -34,8 +36,8 @@ $ sudo systemctl restart sshd'
   tag fix_id: 'F-74601r1066489_fix'
   tag satisfies: ['SRG-OS-000033-GPOS-00014', 'SRG-OS-000394-GPOS-00174', 'SRG-OS-000424-GPOS-00188']
   tag 'documentable'
-  tag cci: ['CCI-000068', 'CCI-002421', 'CCI-003123']
-  tag nist: ['AC-17 (2)', 'SC-8 (1)', 'MA-4 (6)']
+  tag cci: ['CCI-000068', 'CCI-003123', 'CCI-002421']
+  tag nist: ['AC-17 (2)', 'MA-4 (6)', 'SC-8 (1)']
 
   if input('disable_fips')
     impact 0.0

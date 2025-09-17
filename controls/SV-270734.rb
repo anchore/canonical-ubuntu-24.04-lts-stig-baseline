@@ -15,12 +15,14 @@ offline_credentials_expiration = 1
  
 Note: It is valid for this configuration to be in a file with a name that ends with ".conf" and does not begin with a "." in the "/etc/sssd/conf.d/" directory instead of the "/etc/sssd/sssd.conf" file.'
   impact 0.3
+  tag check_id: 'C-74767r1066689_chk'
   tag severity: 'low'
-  tag gtitle: 'SRG-OS-000383-GPOS-00166'
   tag gid: 'V-270734'
   tag rid: 'SV-270734r1066691_rule'
   tag stig_id: 'UBTU-24-400340'
+  tag gtitle: 'SRG-OS-000383-GPOS-00166'
   tag fix_id: 'F-74668r1066690_fix'
+  tag 'documentable'
   tag cci: ['CCI-002007']
   tag nist: ['IA-5 (13)']
   tag 'host'

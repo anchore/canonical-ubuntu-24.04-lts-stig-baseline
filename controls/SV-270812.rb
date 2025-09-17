@@ -1,7 +1,7 @@
 control 'SV-270812' do
   title 'Ubuntu 24.04 LTS must generate audit records for the /var/log/btmp file.'
-  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  
-  
+  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. 
+ 
 Audit records can be generated from various components within the information system (e.g., module or policy filter).'
   desc 'check', %q(Verify Ubuntu 24.04 LTS generates audit records showing start and stop times for user access to the system via the "/var/log/btmp" file with the following command: 
  

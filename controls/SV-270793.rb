@@ -1,7 +1,7 @@
 control 'SV-270793' do
   title 'Ubuntu 24.04 LTS must generate audit records for successful/unsuccessful uses of the apparmor_parser command.'
-  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  
-  
+  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. 
+ 
 Audit records can be generated from various components within the information system (e.g., module or policy filter).'
   desc 'check', 'Verify Ubuntu 24.04 LTS generates an audit record upon successful/unsuccessful attempts to use the "apparmor_parser" command with the following command: 
  
