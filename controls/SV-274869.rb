@@ -26,7 +26,7 @@ ALL     ALL=(ALL:ALL) ALL'
   tag cci: ['CCI-002038', 'CCI-004895']
   tag nist: ['IA-11', 'SC-11 b']
 
-  describe 'Restric privilege elevation to authorized personnel' do
-    skip 'Manual check'
+  describe command("grep -iwR 'ALL' /etc/sudoers /etc/sudoers.d/ | grep -v '#' | grep -E '(ALL\s+ALL=\(ALL\)\s+ALL|ALL\s+ALL=\(ALL:ALL\)\s+ALL)'") do
+    its('stdout.strip') { should eq '' }
   end
 end
