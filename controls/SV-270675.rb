@@ -33,7 +33,7 @@ $ sudo update-grub)
   tag check_id: 'C-74708r1066512_chk'
   tag severity: 'high'
   tag gid: 'V-270675'
-  tag rid: 'SV-270675r1066514_rule'
+  tag rid: 'SV-270675r1137691_rule'
   tag stig_id: 'UBTU-24-102000'
   tag gtitle: 'SRG-OS-000080-GPOS-00048'
   tag fix_id: 'F-74609r1066513_fix'

@@ -25,10 +25,10 @@ Note: The system must be restarted for these settings to take effect.'
   tag check_id: 'C-74794r1066770_chk'
   tag severity: 'medium'
   tag gid: 'V-270761'
-  tag rid: 'SV-270761r1067180_rule'
+  tag rid: 'SV-270761r1184074_rule'
   tag stig_id: 'UBTU-24-700060'
   tag gtitle: 'SRG-OS-000206-GPOS-00084'
-  tag fix_id: 'F-74695r1067180_fix'
+  tag fix_id: 'F-74695r1184073_fix'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']

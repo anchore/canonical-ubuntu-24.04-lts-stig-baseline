@@ -33,10 +33,10 @@ If any of the seven audit tools do not have appropriate selection lines, this is
   tag check_id: 'C-74864r1066980_chk'
   tag severity: 'medium'
   tag gid: 'V-270831'
-  tag rid: 'SV-270831r1066982_rule'
+  tag rid: 'SV-270831r1135002_rule'
   tag stig_id: 'UBTU-24-90890'
   tag gtitle: 'SRG-OS-000278-GPOS-00108'
-  tag fix_id: 'F-74765r1066981_fix'
+  tag fix_id: 'F-74765r1135002_fix'
   tag 'documentable'
   tag cci: ['CCI-001496']
   tag nist: ['AU-9 (3)']

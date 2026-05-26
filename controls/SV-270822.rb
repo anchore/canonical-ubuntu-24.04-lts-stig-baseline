@@ -28,10 +28,10 @@ Replace "[audit_tool]" with each audit tool not owned by root.'
   tag check_id: 'C-74855r1066953_chk'
   tag severity: 'medium'
   tag gid: 'V-270822'
-  tag rid: 'SV-270822r1068392_rule'
+  tag rid: 'SV-270822r1134821_rule'
   tag stig_id: 'UBTU-24-901240'
   tag gtitle: 'SRG-OS-000257-GPOS-00098'
-  tag fix_id: 'F-74756r1066954_fix'
+  tag fix_id: 'F-74756r1134820_fix'
   tag satisfies: ['SRG-OS-000257-GPOS-00098', 'SRG-OS-000256-GPOS-00097']
   tag 'documentable'
   tag cci: ['CCI-001494', 'CCI-001493']

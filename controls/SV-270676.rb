@@ -21,10 +21,10 @@ $ sudo update-grub'
   tag check_id: 'C-74709r1066515_chk'
   tag severity: 'medium'
   tag gid: 'V-270676'
-  tag rid: 'SV-270676r1068360_rule'
+  tag rid: 'SV-270676r1155245_rule'
   tag stig_id: 'UBTU-24-102010'
   tag gtitle: 'SRG-OS-000254-GPOS-00095'
-  tag fix_id: 'F-74610r1066516_fix'
+  tag fix_id: 'F-74610r1155231_fix'
   tag 'documentable'
   tag cci: ['CCI-001464']
   tag nist: ['AU-14 (1)']

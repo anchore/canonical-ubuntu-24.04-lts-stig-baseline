@@ -29,10 +29,10 @@ $ sudo su -c "echo blacklist usb-storage >> /etc/modprobe.d/DISASTIG.conf"'
   tag check_id: 'C-74751r1067127_chk'
   tag severity: 'medium'
   tag gid: 'V-270718'
-  tag rid: 'SV-270718r1067128_rule'
+  tag rid: 'SV-270718r1134811_rule'
   tag stig_id: 'UBTU-24-300039'
   tag gtitle: 'SRG-OS-000690-GPOS-00140'
-  tag fix_id: 'F-74652r1066642_fix'
+  tag fix_id: 'F-74652r1134810_fix'
   tag satisfies: ['SRG-OS-000690-GPOS-00140', 'SRG-OS-000378-GPOS-00163']
   tag 'documentable'
   tag cci: ['CCI-003959', 'CCI-001958']

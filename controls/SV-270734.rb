@@ -18,7 +18,7 @@ Note: It is valid for this configuration to be in a file with a name that ends w
   tag check_id: 'C-74767r1066689_chk'
   tag severity: 'low'
   tag gid: 'V-270734'
-  tag rid: 'SV-270734r1066691_rule'
+  tag rid: 'SV-270734r1155240_rule'
   tag stig_id: 'UBTU-24-400340'
   tag gtitle: 'SRG-OS-000383-GPOS-00166'
   tag fix_id: 'F-74668r1066690_fix'

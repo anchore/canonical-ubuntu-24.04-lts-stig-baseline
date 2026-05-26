@@ -23,10 +23,10 @@ $ sudo augenrules --load'
   tag check_id: 'C-78971r1107303_chk'
   tag severity: 'medium'
   tag gid: 'V-274870'
-  tag rid: 'SV-274870r1107304_rule'
+  tag rid: 'SV-274870r1155243_rule'
   tag stig_id: 'UBTU-24-200270'
   tag gtitle: 'SRG-OS-000471-GPOS-00215'
-  tag fix_id: 'F-78876r1101762_fix'
+  tag fix_id: 'F-78876r1155226_fix'
   tag 'documentable'
   tag cci: ['CCI-000172']
   tag nist: ['AU-12 c']

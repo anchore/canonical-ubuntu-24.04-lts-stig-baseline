@@ -28,7 +28,7 @@ Replace "[audit_tool]" with the audit tool that does not have the correct permis
   tag check_id: 'C-74854r1066950_chk'
   tag severity: 'medium'
   tag gid: 'V-270821'
-  tag rid: 'SV-270821r1068391_rule'
+  tag rid: 'SV-270821r1134818_rule'
   tag stig_id: 'UBTU-24-901230'
   tag gtitle: 'SRG-OS-000257-GPOS-00098'
   tag fix_id: 'F-74755r1066951_fix'

@@ -21,10 +21,10 @@ $ sudo find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -e
   tag check_id: 'C-74789r1066755_chk'
   tag severity: 'medium'
   tag gid: 'V-270756'
-  tag rid: 'SV-270756r1066757_rule'
+  tag rid: 'SV-270756r1134814_rule'
   tag stig_id: 'UBTU-24-700010'
   tag gtitle: 'SRG-OS-000205-GPOS-00083'
-  tag fix_id: 'F-74690r1066756_fix'
+  tag fix_id: 'F-74690r1134813_fix'
   tag 'documentable'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']

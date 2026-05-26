@@ -21,10 +21,10 @@ $ sudo dconf update"
   tag check_id: 'C-74744r1101770_chk'
   tag severity: 'high'
   tag gid: 'V-270711'
-  tag rid: 'SV-270711r1101772_rule'
+  tag rid: 'SV-270711r1184069_rule'
   tag stig_id: 'UBTU-24-300025'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
-  tag fix_id: 'F-74645r1101771_fix'
+  tag fix_id: 'F-74645r1184068_fix'
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
