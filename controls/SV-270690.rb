@@ -56,6 +56,14 @@ unlock_time = 0'
   fail_interval = input('fail_interval')
   lockout_time = input('lockout_time')
 
+  # DISA: pam_faillock.so must be present in /etc/pam.d/common-auth. Commented-out lines do not count.
+  faillock_auth_lines = file('/etc/pam.d/common-auth').content.to_s.lines.grep(/^\s*auth\s+.*\bpam_faillock\.so\b/)
+  describe '/etc/pam.d/common-auth' do
+    it 'uses pam_faillock.so' do
+      expect(faillock_auth_lines).not_to be_empty, 'pam_faillock.so is not on an uncommented auth line in /etc/pam.d/common-auth'
+    end
+  end
+
   describe parse_config_file('/etc/security/faillock.conf') do
     its('audit') { should eq '' }
     its('silent') { should eq '' }
