@@ -35,20 +35,33 @@ $ sudo systemctl restart sshd'
   }
 
   expected_kex = input('expected_kex')
+  # DISA: a finding if KexAlgorithms lists any algorithm other than the approved ones (order is not required).
+  meets_rule = ->(value) { !value.empty? && (value.split(',') - expected_kex).empty? }
 
-  sshd_t_output = command('/usr/sbin/sshd -T 2>/dev/null').stdout
-  kex_line = sshd_t_output.lines.find { |l| l.start_with?('kexalgorithms ') }
-  actual_kex = kex_line.nil? ? [] : kex_line.split(/\s+/, 2)[1].to_s.strip.split(',')
+  # DISA greps every sshd config file (/etc/ssh/sshd_config*), so read the main file and the
+  # sshd_config.d drop-ins it includes, not only the main file. Comment lines are skipped.
+  kex_lines = command("grep -iHs -E '^[[:space:]]*kexalgorithms([[:space:]]|=)' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/*.conf").stdout.lines.map(&:strip)
+  # Drop the "file:" prefix and keyword, plus a trailing comment and quotes, which sshd also ignores.
+  kex_values = kex_lines.map { |l| l.sub(/\A.*?:(?=[[:space:]]*kexalgorithms[[:space:]=])/i, '').strip.sub(/^kexalgorithms[[:space:]=]+/i, '').sub(/[[:space:]]+#.*\z/, '').delete(%q("')).strip }.uniq
 
-  describe 'Effective SSHD KexAlgorithms' do
-    subject { actual_kex }
-    it 'is set and exactly matches the required FIPS-validated algorithms in order' do
-      expect(subject).to eq(expected_kex), <<~MSG.chomp
-        Expected KexAlgorithms to be exactly (in order):
-          - #{expected_kex.join("\n  - ")}
-        Actual:
-          - #{actual_kex.join("\n  - ")}
-      MSG
+  describe 'SSHD KexAlgorithms in /etc/ssh/sshd_config and /etc/ssh/sshd_config.d/*.conf' do
+    it 'are set, not commented out' do
+      expect(kex_values).not_to be_empty, 'No uncommented KexAlgorithms line found'
+    end
+    it 'list only approved algorithms' do
+      bad = kex_values.reject { |value| meets_rule.call(value) }
+      expect(bad).to be_empty, "SSHD KexAlgorithms:\n\t#{bad.join("\n\t")}\ndo not meet the approved value:\n\t#{expected_kex.join(',')}"
+    end
+  end
+
+  # sshd -T reports the effective value but exits non-zero in images without /run/sshd, so use it only when it runs.
+  sshd_t = command('/usr/sbin/sshd -T')
+  if sshd_t.exit_status.zero?
+    effective_kex = sshd_t.stdout.lines.map(&:split).find { |k, _| k == 'kexalgorithms' }&.last.to_s
+    describe 'Effective SSHD KexAlgorithms (sshd -T)' do
+      it 'list only approved algorithms' do
+        expect(meets_rule.call(effective_kex)).to be(true),"Effective KexAlgorithms:\n\t#{effective_kex}\ndo not meet the approved value:\n\t#{expected_kex.join(',')}"
+      end
     end
   end
 end
