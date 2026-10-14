@@ -25,8 +25,9 @@ $ sudo chown :root /usr/bin/journalctl'
   tag nist: ['SI-11 b']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.container_system?
+  # In containers, check the journalctl the image ships; N/A when there is none.
+  only_if('This control is Not Applicable to containers without journalctl', impact: 0.0) {
+    !virtualization.container_system? || file('/usr/bin/journalctl').exist?
   }
 
   describe file('/usr/bin/journalctl') do
