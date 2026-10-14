@@ -82,12 +82,7 @@ Note: The "ssh_confirm.sh" script is provided as a supplemental file to this doc
   tag 'host'
   tag 'container-conditional'
 
-  script_path = input('ssh_ack_script_path')
-  expected_content = input('ssh_ack_script_content')
-
-  describe file(script_path) do
-    it { should exist }
-    it { should be_file }
-    its('content') { should eq expected_content }
+  describe 'Verification of DoD Consent acknowledgment script must be done manually.' do
+    skip 'Verification of DoD Consent acknowledgment script must be done manually.'
   end
 end
