@@ -41,7 +41,10 @@ $ sudo update-grub)
   tag cci: ['CCI-000213']
   tag nist: ['AC-3']
   tag 'host'
-  tag 'container'
+
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.container_system?
+  }
 
   describe file('/boot/grub/grub.cfg') do
     it { should exist }
