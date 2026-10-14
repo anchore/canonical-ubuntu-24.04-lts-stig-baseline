@@ -1,11 +1,9 @@
 control 'SV-270690' do
   title 'Ubuntu 24.04 LTS must automatically lock an account until the locked account is released by an administrator when three unsuccessful logon attempts have been made.'
-  desc 'By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced. Limits are imposed by locking the account.
-
-'
+  desc 'By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced. Limits are imposed by locking the account.'
   desc 'check', %q(Verify that Ubuntu 24.04 LTS utilizes the "pam_faillock" module with the following command:
 
-$ grep faillock /etc/pam.d/common-auth 
+$ grep faillock /etc/pam.d/common-auth
 auth     [default=die]  pam_faillock.so authfail
 auth     sufficient     pam_faillock.so authsucc
 
@@ -25,7 +23,7 @@ If the "audit" keyword is missing or commented out, this is a finding.
 If the "deny" keyword is missing, commented out, or set to a value greater than "3", this is a finding.
 If the "fail_interval" keyword is missing, commented out, or set to a value greater than "900", this is a finding.
 If the "unlock_time" keyword is missing, commented out, or not set to "0", this is a finding.)
-  desc 'fix', 'Configure Ubuntu 24.04 LTS to utilize the "pam_faillock" module. 
+  desc 'fix', 'Configure Ubuntu 24.04 LTS to utilize the "pam_faillock" module.
 
 Edit the /etc/pam.d/common-auth file to add the following lines below the "auth" definition for pam_unix.so:
 auth     [default=die]  pam_faillock.so authfail
@@ -47,25 +45,30 @@ unlock_time = 0'
   tag stig_id: 'UBTU-24-200610'
   tag gtitle: 'SRG-OS-000021-GPOS-00005'
   tag fix_id: 'F-74624r1066558_fix'
-  tag satisfies: ['SRG-OS-000021-GPOS-00005', 'SRG-OS-000329-GPOS-00128']
+  tag satisfies: ['SRG-OS-000329-GPOS-00128', 'SRG-OS-000021-GPOS-00005']
   tag 'documentable'
   tag cci: ['CCI-000044', 'CCI-002238']
   tag nist: ['AC-7 a', 'AC-7 b']
   tag 'host'
   tag 'container'
 
-  lockout_time = input('lockout_time')
+  unsuccessful_attempts = input('unsuccessful_attempts')
   fail_interval = input('fail_interval')
+  lockout_time = input('lockout_time')
 
-  describe command('grep faillock /etc/pam.d/common-auth ') do
-    its('stdout') { should include "pam_faillock.so" }
+  # DISA: pam_faillock.so must be present in /etc/pam.d/common-auth. Commented-out lines do not count.
+  faillock_auth_lines = file('/etc/pam.d/common-auth').content.to_s.lines.grep(/^\s*auth\s+.*\bpam_faillock\.so\b/)
+  describe '/etc/pam.d/common-auth' do
+    it 'uses pam_faillock.so' do
+      expect(faillock_auth_lines).not_to be_empty, 'pam_faillock.so is not on an uncommented auth line in /etc/pam.d/common-auth'
+    end
   end
 
   describe parse_config_file('/etc/security/faillock.conf') do
+    its('audit') { should eq '' }
+    its('silent') { should eq '' }
+    its('deny') { should cmp <= unsuccessful_attempts }
+    its('fail_interval') { should cmp <= fail_interval }
     its('unlock_time') { should cmp lockout_time }
-    its('audit') { should exist }
-    its('silent') { should exist }
-    its('deny') { should eq '3' }
-    its('fail_interval') { should cmp fail_interval}
   end
 end

@@ -1,42 +1,41 @@
 control 'SV-270799' do
   title 'Ubuntu 24.04 LTS must generate audit records for successful/unsuccessful uses of the unix_update command.'
-  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. 
- 
+  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.
+
 Audit records can be generated from various components within the information system (e.g., module or policy filter).'
-  desc 'check', 'Verify that an audit event is generated for any successful/unsuccessful use of the "unix_update" command with the following command:  
- 
+  desc 'check', 'Verify that an audit event is generated for any successful/unsuccessful use of the "unix_update" command with the following command:
+
 $ sudo auditctl -l | grep -w unix_update
--a always,exit -F path=/sbin/unix_update -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-unix-update 
- 
-If the command does not return a line that matches the example or the line is commented out, this is a finding. 
- 
+-a always,exit -F path=/sbin/unix_update -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-unix-update
+
+If the command does not return a line that matches the example or the line is commented out, this is a finding.
+
 Note: The "-k" allows for specifying an arbitrary identifier, and the string after it does not need to match the example output above.'
-  desc 'fix', 'Configure the audit system to generate an audit event for any successful/unsuccessful uses of the "unix_update" command.  
- 
-Add or update the following rules in the "/etc/audit/rules.d/stig.rules" file: 
- 
--a always,exit -F path=/sbin/unix_update -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-unix-update 
-  
-To reload the rules file, issue the following command: 
- 
+  desc 'fix', 'Configure the audit system to generate an audit event for any successful/unsuccessful uses of the "unix_update" command.
+
+Add or update the following rules in the "/etc/audit/rules.d/stig.rules" file:
+
+-a always,exit -F path=/sbin/unix_update -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-unix-update
+
+To reload the rules file, issue the following command:
+
 $ sudo augenrules --load'
   impact 0.5
-  tag check_id: 'C-74832r1066884_chk'
   tag severity: 'medium'
+  tag gtitle: 'SRG-OS-000064-GPOS-00033'
+  tag satisfies: ['SRG-OS-000062-GPOS-00031', 'SRG-OS-000037-GPOS-00015', 'SRG-OS-000042-GPOS-00020', 'SRG-OS-000392-GPOS-00172', 'SRG-OS-000462-GPOS-00206', 'SRG-OS-000471-GPOS-00215', 'SRG-OS-000064-GPOS-00033']
   tag gid: 'V-270799'
   tag rid: 'SV-270799r1066886_rule'
   tag stig_id: 'UBTU-24-900280'
-  tag gtitle: 'SRG-OS-000064-GPOS-00033'
   tag fix_id: 'F-74733r1066885_fix'
-  tag 'documentable'
-  tag cci: ['CCI-000172']
-  tag nist: ['AU-12 c']
+  tag cci: ['CCI-000169', 'CCI-000130', 'CCI-000135', 'CCI-000172', 'CCI-002884']
+  tag nist: ['AU-12 a', 'AU-3 a', 'AU-3 (1)', 'AU-12 c', 'MA-4 (1) (a)']
   tag 'host'
 
-  audit_command = '/usr/sbin/unix_update'
+  audit_command = '/sbin/unix_update'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !virtualization.container_system?
   }
 
   describe 'Command' do

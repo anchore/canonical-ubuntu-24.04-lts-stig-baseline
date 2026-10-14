@@ -13,22 +13,21 @@ Add or modify the "sha512" parameter value to the following line in "/etc/pam.d/
 
 password [success=1 default=ignore] pam_unix.so obscure sha512 shadow rounds=100000'
   impact 0.5
-  tag check_id: 'C-74758r1101787_chk'
   tag severity: 'medium'
+  tag gtitle: 'SRG-OS-000073-GPOS-00041'
   tag gid: 'V-270725'
   tag rid: 'SV-270725r1101789_rule'
   tag stig_id: 'UBTU-24-400220'
-  tag gtitle: 'SRG-OS-000073-GPOS-00041'
   tag fix_id: 'F-74659r1101788_fix'
-  tag 'documentable'
-  tag cci: ['CCI-004062']
-  tag nist: ['IA-5 (1) (d)']
+  tag cci: ['CCI-000803', 'CCI-000196', 'CCI-004062']
+  tag nist: ['IA-7', 'IA-5 (1) (c)', 'IA-5 (1) (d)']
   tag 'host'
   tag 'container'
 
+  expected_line = 'password [success=1 default=ignore] pam_unix.so obscure sha512 shadow'
   pam_auth_files = input('pam_auth_files')
 
   describe pam(pam_auth_files['system-auth']) do
-    its('lines') { should match_pam_rule('password sufficient pam_unix.so sha512') }
+    its('lines') { should match_pam_rule(expected_line).any_with_integer_arg('rounds', :>=, input('password_hash_rounds')) }
   end
 end
