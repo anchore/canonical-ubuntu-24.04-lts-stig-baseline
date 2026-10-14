@@ -43,7 +43,7 @@ $ sudo systemctl restart sshd.service'
     !is_container || openssh_present
   }
 
-  if is_container
+  if is_container && !allow_container_openssh
     describe 'In a container Environment' do
       it 'the OpenSSH Server should be installed only when allowed in a container environment' do
         expect(openssh_present).to eq(allow_container_openssh), 'OpenSSH Server is installed but not approved for the container environment'
