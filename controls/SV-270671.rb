@@ -34,27 +34,28 @@ $ sudo systemctl restart ssh'
   tag 'host'
   tag 'container-conditional'
 
-  only_if('Control not applicable - SSH is not installed within containerized Ubuntu', impact: 0.0) {
-    !virtualization.container_system? || file('/etc/ssh/sshd_config').exist?
+  # This is the SSH client requirement, so it applies wherever the client is installed.
+  only_if('Control not applicable - SSH client is not installed within containerized Ubuntu', impact: 0.0) {
+    !virtualization.container_system? || package('openssh-client').installed?
   }
 
   approved_macs = input('approved_openssh_server_conf')['macs']
+  # DISA: a finding if any MACs other than the approved ones are listed (order is not required).
+  meets_rule = ->(value) { !value.empty? && (value.split(',') - approved_macs.split(',')).empty? }
 
-  macs_cmd = command("/usr/sbin/sshd -T 2>/dev/null | awk '$1==\"macs\"{print $2}'")
-  actual_macs = macs_cmd.stdout.strip
+  # DISA greps the client config (/etc/ssh/ssh_config*), so read the main file and the
+  # ssh_config.d drop-ins it includes. Comment lines are skipped; with none left the client uses its defaults.
+  macs_lines = command("grep -iHs -E '^[[:space:]]*macs([[:space:]]|=)' /etc/ssh/ssh_config /etc/ssh/ssh_config.d/*.conf").stdout.lines.map(&:strip)
+  # Drop the "file:" prefix and keyword, plus a trailing comment and quotes, which ssh also ignores.
+  macs_values = macs_lines.map { |l| l.sub(/\A.*?:(?=[[:space:]]*macs[[:space:]=])/i, '').strip.sub(/^macs[[:space:]=]+/i, '').sub(/[[:space:]]+#.*\z/, '').delete(%q("')).strip }.uniq
 
-  config_cmd = command("grep -h -i '^MACs' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/* 2>/dev/null | tail -n 1 | awk '{print $2}'")
-  config_macs = config_cmd.stdout.strip
-
-  describe 'OpenSSH server MACs' do
-    it 'matches the approved list in exact order' do
-      expect(actual_macs).to eq(approved_macs), "OpenSSH server MACs:\n\t#{actual_macs}\ndoes not match the expected value:\n\t#{approved_macs}"
+  describe 'OpenSSH client MACs in /etc/ssh/ssh_config and /etc/ssh/ssh_config.d/*.conf' do
+    it 'are set, not commented out' do
+      expect(macs_values).not_to be_empty, 'No uncommented MACs line found'
     end
-  end
-
-  describe 'OpenSSH server MACs in config files' do
-    it 'matches the approved list in exact order' do
-      expect(config_macs).to eq(approved_macs), "OpenSSH config MACs:\n\t#{config_macs}\ndoes not match the expected value:\n\t#{approved_macs}"
+    it 'list only approved algorithms' do
+      bad = macs_values.reject { |value| meets_rule.call(value) }
+      expect(bad).to be_empty, "OpenSSH client MACs:\n\t#{bad.join("\n\t")}\ndo not meet the approved value:\n\t#{approved_macs}"
     end
   end
 end
