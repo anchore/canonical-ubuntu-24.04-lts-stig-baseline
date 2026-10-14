@@ -35,11 +35,13 @@ $ sudo systemctl restart rsyslog.service'
     !virtualization.container_system? || package('openssh-server').installed?
   }
 
-  auth_pattern     = /(^|[,[:space:]])auth\.\*/
-  authpriv_pattern = /(^|[,[:space:]])authpriv\.\*/
-  daemon_pattern   = /(^|[,[:space:]])daemon\.\*/
+  # A selector may list several facilities before the priority: "auth,authpriv.*" logs auth.* and
+  # authpriv.* (Ubuntu's default line and DISA's 24.04 example). Commented-out lines do not count.
+  auth_pattern     = /(^|[,;[:space:]])auth(,[a-z0-9]+)*\.\*/
+  authpriv_pattern = /(^|[,;[:space:]])authpriv(,[a-z0-9]+)*\.\*/
+  daemon_pattern   = /(^|[,;[:space:]])daemon(,[a-z0-9]+)*\.\*/
 
-  rsyslog_conf = command('grep -hEr \'(auth.*|authpriv.*|daemon.*)\' /etc/rsyslog.*')
+  rsyslog_conf = command('grep -hEr \'^[^#]*(auth|authpriv|daemon)\' /etc/rsyslog.*')
 
   describe 'Logged remote access methods' do
     it 'should include auth.*' do
