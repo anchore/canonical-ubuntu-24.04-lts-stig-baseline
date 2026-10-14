@@ -7,34 +7,32 @@ $ sudo grep -ir x11uselocalhost /etc/ssh/sshd_config*
 X11UseLocalhost yes
 
 If the "X11UseLocalhost" keyword is set to "no", is commented out, is missing, or multiple conflicting results are returned, this is a finding.'
-  desc 'fix', 'Configure the SSH daemon to prevent remote hosts from connecting to the proxy display. 
- 
-Edit the "/etc/ssh/sshd_config" file to uncomment or add the line for the "X11UseLocalhost" keyword and set its value to "yes" (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor): 
- 
-X11UseLocalhost yes 
- 
-Restart the SSH daemon for the changes to take effect: 
- 
+  desc 'fix', 'Configure the SSH daemon to prevent remote hosts from connecting to the proxy display.
+
+Edit the "/etc/ssh/sshd_config" file to uncomment or add the line for the "X11UseLocalhost" keyword and set its value to "yes" (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor):
+
+X11UseLocalhost yes
+
+Restart the SSH daemon for the changes to take effect:
+
 $ sudo systemctl restart sshd.service'
   impact 0.5
-  tag check_id: 'C-74742r1066614_chk'
   tag severity: 'medium'
+  tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag gid: 'V-270709'
   tag rid: 'SV-270709r1066616_rule'
   tag stig_id: 'UBTU-24-300023'
-  tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag fix_id: 'F-74643r1066615_fix'
-  tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
   tag 'host'
   tag 'container-conditional'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(virtualization.system.eql?('docker') && !file('/etc/ssh/sshd_config').exist?)
+    !virtualization.container_system? || package('openssh-server').installed?
   }
 
-  describe sshd_config do
+  describe sshd_active_config do
     its('X11UseLocalhost') { should cmp 'yes' }
   end
 end
