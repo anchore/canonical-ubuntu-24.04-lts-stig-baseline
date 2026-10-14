@@ -62,7 +62,7 @@ $  sudo cp -f /usr/share/aide/config/cron.daily/aide /etc/cron.daily/dailyaidech
   tag 'host'
   tag 'container'
 
-  only_if('This control is Not Applicable to containers') do
+  only_if('This control is Not Applicable to containers', impact: 0.0) do
     !virtualization.container_system?
   end
 
