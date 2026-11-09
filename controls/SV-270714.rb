@@ -24,7 +24,7 @@ Remove any instances of the "nullok" option in "/etc/pam.d/common-password" and 
   tag 'container'
 
   pam_auth_files = input('pam_auth_files')
-  file_list = pam_auth_files.values.join(' ')
+  file_list = pam_auth_files.values.uniq.join(' ')
   bad_entries = command("grep -i nullok #{file_list}").stdout.lines.map(&:strip)
 
   describe 'The system is configureed' do
