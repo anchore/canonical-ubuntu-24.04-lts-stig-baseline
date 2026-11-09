@@ -12,6 +12,7 @@ If any system commands are returned and not owned by a required system account, 
 
 $ sudo chown root [FILE]'
   impact 0.5
+  tag check_id: 'C-74735r1066593_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag gid: 'V-270702'

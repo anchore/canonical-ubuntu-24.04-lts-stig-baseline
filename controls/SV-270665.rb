@@ -28,15 +28,16 @@ If the "openssh" server package is not installed, this is a finding.'
 
 $ sudo apt install -y ssh'
   impact 0.7
+  tag check_id: 'C-74698r1067131_chk'
   tag severity: 'high'
   tag gtitle: 'SRG-OS-000423-GPOS-00187'
-  tag satisfies: ['SRG-OS-000423-GPOS-00187', 'SRG-OS-000424-GPOS-00188', 'SRG-OS-000425-GPOS-00189', 'SRG-OS-000426-GPOS-00190']
+  tag satisfies: ['SRG-OS-000423-GPOS-00187', 'SRG-OS-000425-GPOS-00189', 'SRG-OS-000426-GPOS-00190']
   tag gid: 'V-270665'
   tag rid: 'SV-270665r1067133_rule'
   tag stig_id: 'UBTU-24-100800'
   tag fix_id: 'F-74599r1067132_fix'
-  tag cci: ['CCI-002418', 'CCI-002420', 'CCI-002421', 'CCI-002422']
-  tag nist: ['SC-8', 'SC-8 (2)', 'SC-8 (1)']
+  tag cci: ['CCI-002418', 'CCI-002420', 'CCI-002422']
+  tag nist: ['SC-8', 'SC-8 (2)']
   tag 'host'
   tag 'container-conditional'
 

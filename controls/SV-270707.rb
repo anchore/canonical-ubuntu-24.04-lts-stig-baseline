@@ -10,15 +10,15 @@ $ sudo egrep -iR '!authenticate' /etc/sudoers /etc/sudoers.d/
 If any occurrences of "!authenticate" return from the command, this is a finding.)
   desc 'fix', 'Remove any occurrence of "!authenticate" found in "/etc/sudoers" file or files in the "/etc/sudoers.d" directory.'
   impact 0.5
+  tag check_id: 'C-74740r1101784_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
-  tag satisfies: ['SRG-OS-000373-GPOS-00156', 'SRG-OS-000373-GPOS-00157', 'SRG-OS-000373-GPOS-00158']
   tag gid: 'V-270707'
-  tag rid: 'SV-270707r1101786_rule'
+  tag rid: 'SV-270707r1268251_rule'
   tag stig_id: 'UBTU-24-300021'
   tag fix_id: 'F-74641r1101785_fix'
-  tag cci: ['CCI-002038', 'CCI-004895', 'CCI-000366']
-  tag nist: ['IA-11', 'SC-11 b', 'CM-6 b']
+  tag cci: ['CCI-000366']
+  tag nist: ['CM-6 b']
   tag 'host'
   tag 'container-conditional'
 

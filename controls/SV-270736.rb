@@ -9,6 +9,7 @@ ldap_user_certificate=userCertificate;binary'
 
 ldap_user_certificate=userCertificate;binary'
   impact 0.7
+  tag check_id: 'C-74769r1066695_chk'
   tag severity: 'high'
   tag gtitle: 'SRG-OS-000068-GPOS-00036'
   tag gid: 'V-270736'

@@ -18,6 +18,7 @@ If "flags" does not contain the "nx" flag, this is a finding.'
 
 If "nx" is not showing up in "/proc/cpuinfo", and the system's BIOS setup configuration permits toggling the No Execution bit, set it to "enable".)
   impact 0.5
+  tag check_id: 'C-74804r1066800_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000433-GPOS-00192'
   tag gid: 'V-270771'

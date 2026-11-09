@@ -51,6 +51,7 @@ $ sudo systemctl restart auditd.service)
   tag rid: 'SV-270658r1067151_rule'
   tag stig_id: 'UBTU-24-100450'
   tag gtitle: 'SRG-OS-000342-GPOS-00133'
+  tag satisfies: ['SRG-OS-000342-GPOS-00133', 'SRG-OS-000479-GPOS-00224']
   tag fix_id: 'F-74592r1067150_fix'
   tag 'documentable'
   tag cci: ['CCI-001851']

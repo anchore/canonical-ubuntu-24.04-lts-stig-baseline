@@ -23,10 +23,11 @@ difok=8'
   tag rid: 'SV-270729r1066676_rule'
   tag stig_id: 'UBTU-24-400290'
   tag gtitle: 'SRG-OS-000072-GPOS-00040'
+  tag satisfies: ['SRG-OS-000072-GPOS-00040', 'SRG-OS-000730-GPOS-00190']
   tag fix_id: 'F-74663r1066675_fix'
   tag 'documentable'
-  tag cci: ['CCI-000195', 'CCI-004066', 'CCI-004065']
-  tag nist: ['IA-5 (1) (b)', 'IA-5 (1) (h)', 'IA-5 (1) (g)']
+  tag cci: ['CCI-004065', 'CCI-004066']
+  tag nist: ['IA-5 (1) (g)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

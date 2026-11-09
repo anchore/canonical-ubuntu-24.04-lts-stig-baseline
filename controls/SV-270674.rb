@@ -22,7 +22,7 @@ $ sudo apt install -y vlock'
   tag fix_id: 'F-74608r1067166_fix'
   tag satisfies: ['SRG-OS-000030-GPOS-00011', 'SRG-OS-000031-GPOS-00012']
   tag 'documentable'
-  tag cci: ['CCI-000058', 'CCI-000060', 'CCI-000057']
+  tag cci: ['CCI-000060', 'CCI-000057']
   tag nist: ['AC-11 a', 'AC-11 (1)']
   tag 'host'
 

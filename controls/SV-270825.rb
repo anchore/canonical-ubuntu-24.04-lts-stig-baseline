@@ -23,7 +23,7 @@ $ sudo find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin ! -user
   tag fix_id: 'F-74759r1066963_fix'
   tag 'documentable'
   tag cci: ['CCI-001495']
-  tag nist: ['AU-9']
+  tag nist: ['AU-9', 'AU-9 a']
   tag 'host'
   tag 'container'
 

@@ -28,8 +28,8 @@ If kernel core dumps are required, document the need with the ISSO.'
   tag gtitle: 'SRG-OS-000184-GPOS-00078'
   tag fix_id: 'F-74680r1101768_fix'
   tag 'documentable'
-  tag cci: ['CCI-000366', 'CCI-001190']
-  tag nist: ['CM-6 b', 'SC-24']
+  tag cci: ['CCI-001190']
+  tag nist: ['SC-24']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

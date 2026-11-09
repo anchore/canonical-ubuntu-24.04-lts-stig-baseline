@@ -15,14 +15,16 @@ Add or modify the "minlen" parameter value to the "/etc/security/pwquality.conf"
 
 minlen=15'
   impact 0.5
+  tag check_id: 'C-74765r1066683_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000078-GPOS-00046'
+  tag satisfies: ['SRG-OS-000078-GPOS-00046', 'SRG-OS-000730-GPOS-00190']
   tag gid: 'V-270732'
   tag rid: 'SV-270732r1066685_rule'
   tag stig_id: 'UBTU-24-400320'
   tag fix_id: 'F-74666r1066684_fix'
-  tag cci: ['CCI-000205', 'CCI-004066', 'CCI-004065']
-  tag nist: ['IA-5 (1) (a)', 'IA-5 (1) (h)', 'IA-5 (1) (g)']
+  tag cci: ['CCI-004065', 'CCI-004066']
+  tag nist: ['IA-5 (1) (g)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

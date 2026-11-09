@@ -16,13 +16,13 @@ $ sudo apt install -y chrony'
   tag check_id: 'C-74697r1067157_chk'
   tag severity: 'low'
   tag gid: 'V-270664'
-  tag rid: 'SV-270664r1068359_rule'
+  tag rid: 'SV-270664r1268251_rule'
   tag stig_id: 'UBTU-24-100700'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag fix_id: 'F-74598r1067158_fix'
   tag 'documentable'
-  tag cci: ['CCI-001891', 'CCI-000366']
-  tag nist: ['AU-8 (1) (a)', 'CM-6 b']
+  tag cci: ['CCI-000366']
+  tag nist: ['CM-6 b']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

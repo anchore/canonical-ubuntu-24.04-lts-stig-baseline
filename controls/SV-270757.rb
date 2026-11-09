@@ -3,14 +3,14 @@ control 'SV-270757' do
   desc 'Any operating system providing too much information in error messages risks compromising the data and security of the structure, and content of error messages must be carefully considered by the organization.
 
 Organizations carefully consider the structure/content of error messages. The extent to which information systems are able to identify and handle error conditions is guided by organizational policy and operational requirements. Information that could be exploited by adversaries includes, for example, erroneous logon attempts with passwords entered by mistake as the username, mission/business information that can be derived from (if not stated explicitly by) information recorded, and personal information, such as account numbers, social security numbers, and credit card numbers.'
-  desc 'check', 'Verify the /run/log/journal and /var/log/journal directories have permissions set to "2640" or less permissive with the following command:
+  desc 'check', 'Verify the /run/log/journal and /var/log/journal directories have permissions set to default values with the following command:
 
 $ sudo find /run/log/journal /var/log/journal  -type d -exec stat -c "%n %a" {} \\;
-/run/log/journal 2640
-/var/log/journal 2640
-/var/log/journal/d5745ad455d34fb8b6f78be37c1fcd3e 2640
+/run/log/journal 2755
+/var/log/journal 2755
+/var/log/journal/6a52424faa6e480ea5fc7346b9345792 2755
 
-If any output returned has a permission set greater than 2640, this is a finding.
+If any output returned has a permission set greater than 2755, this is a finding.
 
 Verify all files in the /run/log/journal and /var/log/journal directories have permissions set to "640" or less permissive with the following command:
 
@@ -22,27 +22,29 @@ $ sudo find /run/log/journal /var/log/journal  -type f -exec stat -c "%n %a" {} 
 /var/log/journal/d5745ad455d34fb8b6f78be37c1fcd3e/user-1000.journal 640
 
 If any output returned has a permission set greater than "640", this is a finding.'
-  desc 'fix', 'Configure the system to set the appropriate permissions to the files and directories used by the systemd journal:
+  desc 'fix', 'Configure the system to set the appropriate permissions to the files and directories used by the systemd journal.
 
-$ sudo nano /usr/lib/tmpfiles.d/systemd.conf
+Create a drop-in file if it does not already exist with the following command:
 
-Edit the following lines of the configuration file:
+$ sudo vi /etc/tmpfiles.d/zzz-systemd-stig.conf
+ 
+Add or modify the following lines in the "/usr/lib/tmpfiles.d/zzz-systemd-stig.conf" file: 
 
-z /run/log/journal 2640 root systemd-journal - -
-Z /run/log/journal/%m ~2640 root systemd-journal - -
-z /var/log/journal 2640 root systemd-journal - -
-z /var/log/journal/%m 2640 root systemd-journal - -
+z /run/log/journal 2755 root systemd-journal - -
+Z /run/log/journal/%m ~2750 root systemd-journal - -
+z /var/log/journal 2755 root systemd-journal - -
+z /var/log/journal/%m 2755 root systemd-journal - -
 z /var/log/journal/%m/system.journal 0640 root systemd-journal - -
 
-Note: The system must be restarted for these settings to take effect.'
+Note: Restart the system for these settings to take effect.'
   impact 0.5
-  tag check_id: 'C-74790r1066758_chk'
+  tag check_id: 'C-74790r1261491_chk'
   tag severity: 'medium'
   tag gid: 'V-270757'
-  tag rid: 'SV-270757r1066760_rule'
+  tag rid: 'SV-270757r1261493_rule'
   tag stig_id: 'UBTU-24-700020'
   tag gtitle: 'SRG-OS-000205-GPOS-00083'
-  tag fix_id: 'F-74691r1066759_fix'
+  tag fix_id: 'F-74691r1261492_fix'
   tag 'documentable'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']

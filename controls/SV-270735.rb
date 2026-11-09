@@ -49,15 +49,16 @@ ldap_user_certificate = usercertificate;binary
 certificate_verification = ca_cert,ocsp
 ca_cert = /etc/ssl/certs/ca-certificates.crt'
   impact 0.5
+  tag check_id: 'C-74768r1066692_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000066-GPOS-00034'
-  tag satisfies: ['SRG-OS-000066-GPOS-00034', 'SRG-OS-000384-GPOS-00167', 'SRG-OS-000775-GPOS-00230']
+  tag satisfies: ['SRG-OS-000066-GPOS-00034', 'SRG-OS-000775-GPOS-00230']
   tag gid: 'V-270735'
   tag rid: 'SV-270735r1066694_rule'
   tag stig_id: 'UBTU-24-400360'
   tag fix_id: 'F-74669r1066693_fix'
-  tag cci: ['CCI-000185', 'CCI-001991', 'CCI-004909']
-  tag nist: ['IA-5 (2) (a)', 'IA-5 (2) (b) (1)', 'IA-5 (2) (d)', 'SC-17 b']
+  tag cci: ['CCI-000185', 'CCI-004909']
+  tag nist: ['IA-5 (2) (a)', 'IA-5 (2) (b) (1)', 'SC-17 b']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

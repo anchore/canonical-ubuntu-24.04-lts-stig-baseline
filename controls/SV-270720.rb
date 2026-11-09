@@ -14,15 +14,16 @@ $ awk -F ":" 'list[$3]++{print $1, $3}' /etc/passwd
 If output is produced and the accounts listed are interactive user accounts, this is a finding.)
   desc 'fix', 'Edit the file "/etc/passwd" and provide each interactive user account that has a duplicate UID with a unique UID.'
   impact 0.5
+  tag check_id: 'C-74753r1066647_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000104-GPOS-00051'
-  tag satisfies: ['SRG-OS-000104-GPOS-00051', 'SRG-OS-000121-GPOS-00062', 'SRG-OS-000042-GPOS-00020']
+  tag satisfies: ['SRG-OS-000104-GPOS-00051', 'SRG-OS-000121-GPOS-00062']
   tag gid: 'V-270720'
   tag rid: 'SV-270720r1066649_rule'
   tag stig_id: 'UBTU-24-400000'
   tag fix_id: 'F-74654r1066648_fix'
-  tag cci: ['CCI-000764', 'CCI-000135', 'CCI-000804']
-  tag nist: ['IA-2', 'AU-3 (1)', 'IA-8']
+  tag cci: ['CCI-000764', 'CCI-000804']
+  tag nist: ['IA-2', 'IA-8']
   tag 'host'
   tag 'container'
 

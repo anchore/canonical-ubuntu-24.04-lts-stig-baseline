@@ -31,6 +31,7 @@ To reload the rules file, issue the following command:
 
 $ sudo augenrules --load'
   impact 0.5
+  tag check_id: 'C-74722r1066554_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000326-GPOS-00126'
   tag satisfies: ['SRG-OS-000326-GPOS-00126', 'SRG-OS-000327-GPOS-00127', 'SRG-OS-000755-GPOS-00220']

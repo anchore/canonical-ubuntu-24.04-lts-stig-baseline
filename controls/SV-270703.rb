@@ -14,6 +14,7 @@ If any system commands are returned that are not group-owned by a required syste
 
 $ sudo chgrp [SYSTEMACCOUNT] [FILE]'
   impact 0.5
+  tag check_id: 'C-74736r1066596_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag gid: 'V-270703'

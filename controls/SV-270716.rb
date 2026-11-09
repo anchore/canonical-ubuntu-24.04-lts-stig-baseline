@@ -15,6 +15,7 @@ Edit the "UMASK" parameter in the "/etc/login.defs" file to match the example be
 
 UMASK 077'
   impact 0.5
+  tag check_id: 'C-74749r1066635_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000480-GPOS-00228'
   tag gid: 'V-270716'

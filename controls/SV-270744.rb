@@ -27,10 +27,10 @@ $ sudo pro enable fips-updates'
   tag stig_id: 'UBTU-24-600030'
   tag gtitle: 'SRG-OS-000478-GPOS-00223'
   tag fix_id: 'F-74678r1066720_fix'
-  tag satisfies: ['SRG-OS-000396-GPOS-00176', 'SRG-OS-000393-GPOS-00173', 'SRG-OS-000394-GPOS-00174', 'SRG-OS-000478-GPOS-00223']
+  tag satisfies: ['SRG-OS-000478-GPOS-00223', 'SRG-OS-000396-GPOS-00176']
   tag 'documentable'
-  tag cci: ['CCI-002450', 'CCI-002890', 'CCI-003123']
-  tag nist: ['SC-13 b', 'MA-4 (6)']
+  tag cci: ['CCI-002450']
+  tag nist: ['SC-13 b']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

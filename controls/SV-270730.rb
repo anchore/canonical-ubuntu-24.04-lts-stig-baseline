@@ -13,14 +13,16 @@ Add or modify the following line in the "/etc/login.defs" file:
 
 PASS_MIN_DAYS    1'
   impact 0.5
+  tag check_id: 'C-74763r1066677_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000075-GPOS-00043'
+  tag satisfies: ['SRG-OS-000075-GPOS-00043', 'SRG-OS-000730-GPOS-00190']
   tag gid: 'V-270730'
   tag rid: 'SV-270730r1066679_rule'
   tag stig_id: 'UBTU-24-400300'
   tag fix_id: 'F-74664r1066678_fix'
-  tag cci: ['CCI-000198', 'CCI-004066', 'CCI-004065']
-  tag nist: ['IA-5 (1) (d)', 'IA-5 (1) (h)', 'IA-5 (1) (g)']
+  tag cci: ['CCI-004065', 'CCI-004066']
+  tag nist: ['IA-5 (1) (g)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

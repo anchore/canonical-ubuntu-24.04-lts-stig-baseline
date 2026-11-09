@@ -22,9 +22,10 @@ $ sudo chown root [audit_tool]
 
 Replace "[audit_tool]" with each audit tool not owned by root.'
   impact 0.5
+  tag check_id: 'C-74855r1134819_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000257-GPOS-00098'
-  tag satisfies: ['SRG-OS-000256-GPOS-00097', 'SRG-OS-000257-GPOS-00098', 'SRG-OS-000258-GPOS-00099']
+  tag satisfies: ['SRG-OS-000257-GPOS-00098', 'SRG-OS-000256-GPOS-00097']
   tag gid: 'V-270822'
   tag rid: 'SV-270822r1134821_rule'
   tag stig_id: 'UBTU-24-901240'

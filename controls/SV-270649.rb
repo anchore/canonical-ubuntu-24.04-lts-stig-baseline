@@ -24,8 +24,8 @@ $ sudo apt install -y aide'
   tag gtitle: 'SRG-OS-000445-GPOS-00199'
   tag fix_id: 'F-74583r1067135_fix'
   tag 'documentable'
-  tag cci: ['CCI-002696', 'CCI-001744']
-  tag nist: ['SI-6 a', 'CM-3 (5)']
+  tag cci: ['CCI-002696']
+  tag nist: ['SI-6 a']
   tag 'host'
 
   file_integrity_tool = input('file_integrity_tool')

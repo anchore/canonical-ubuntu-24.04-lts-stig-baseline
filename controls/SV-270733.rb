@@ -17,14 +17,16 @@ Add or update the following line in the "/etc/security/pwquality.conf" file to i
 
 ocredit=-1'
   impact 0.5
+  tag check_id: 'C-74766r1066686_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000266-GPOS-00101'
+  tag satisfies: ['SRG-OS-000266-GPOS-00101', 'SRG-OS-000730-GPOS-00190']
   tag gid: 'V-270733'
   tag rid: 'SV-270733r1066688_rule'
   tag stig_id: 'UBTU-24-400330'
   tag fix_id: 'F-74667r1066687_fix'
-  tag cci: ['CCI-001619', 'CCI-004066', 'CCI-004065']
-  tag nist: ['IA-5 (1) (a)', 'IA-5 (1) (h)', 'IA-5 (1) (g)']
+  tag cci: ['CCI-004065', 'CCI-004066']
+  tag nist: ['IA-5 (1) (g)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

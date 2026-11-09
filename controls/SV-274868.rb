@@ -17,14 +17,14 @@ $ sudo find /etc/sudoers /etc/sudoers.d -type f -exec sed -i '/NOPASSWD/ s/^/# /
   tag check_id: 'C-78969r1101743_chk'
   tag severity: 'medium'
   tag gid: 'V-274868'
-  tag rid: 'SV-274868r1107313_rule'
+  tag rid: 'SV-274868r1268251_rule'
   tag stig_id: 'UBTU-24-300020'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag fix_id: 'F-78874r1101744_fix'
   tag satisfies: ['SRG-OS-000373-GPOS-00156', 'SRG-OS-000373-GPOS-00157', 'SRG-OS-000373-GPOS-00158']
   tag 'documentable'
-  tag cci: ['CCI-002038', 'CCI-004895', 'CCI-000366']
-  tag nist: ['IA-11', 'SC-11 b', 'CM-6 b']
+  tag cci: ['CCI-000366']
+  tag nist: ['CM-6 b']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

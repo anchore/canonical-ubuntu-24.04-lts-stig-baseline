@@ -24,6 +24,7 @@ If /etc/audit/audit.rule, /etc/audit/rules.d/*, or /etc/audit/auditd.conf files 
 
 $ sudo chmod -R 0640 /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*'
   impact 0.5
+  tag check_id: 'C-74808r1068368_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000063-GPOS-00032'
   tag gid: 'V-270775'

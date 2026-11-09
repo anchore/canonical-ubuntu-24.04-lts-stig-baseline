@@ -12,6 +12,7 @@ If any output is returned, this is a finding.)
 
 $ sudo find /lib /lib64 /usr/lib /usr/lib64 -type f -name '*.so*' ! -user root -exec chown root {} +)
   impact 0.5
+  tag check_id: 'C-74730r1101755_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag gid: 'V-270697'

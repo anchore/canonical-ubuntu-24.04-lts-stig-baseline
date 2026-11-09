@@ -28,15 +28,16 @@ Using the path of the directory containing the audit logs, configure the audit l
 
 $ sudo chown root /var/log/audit/*'
   impact 0.5
+  tag check_id: 'C-74861r1066971_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000057-GPOS-00027'
-  tag satisfies: ['SRG-OS-000057-GPOS-00027', 'SRG-OS-000058-GPOS-00028', 'SRG-OS-000059-GPOS-00029', 'SRG-OS-000206-GPOS-00084']
+  tag satisfies: ['SRG-OS-000057-GPOS-00027', 'SRG-OS-000058-GPOS-00028', 'SRG-OS-000059-GPOS-00029']
   tag gid: 'V-270828'
   tag rid: 'SV-270828r1066973_rule'
   tag stig_id: 'UBTU-24-901310'
   tag fix_id: 'F-74762r1066972_fix'
-  tag cci: ['CCI-000162', 'CCI-000163', 'CCI-000164', 'CCI-001314']
-  tag nist: ['AU-9', 'AU-9 a', 'SI-11 b']
+  tag cci: ['CCI-000162', 'CCI-000163', 'CCI-000164']
+  tag nist: ['AU-9', 'AU-9 a']
   tag 'host'
 
   if virtualization.container_system?

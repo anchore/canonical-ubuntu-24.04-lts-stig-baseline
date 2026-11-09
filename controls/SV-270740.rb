@@ -34,8 +34,8 @@ $ sudo augenrules --load'
   tag fix_id: 'F-74674r1066708_fix'
   tag satisfies: ['SRG-OS-000392-GPOS-00172', 'SRG-OS-000471-GPOS-00215']
   tag 'documentable'
-  tag cci: ['CCI-000172', 'CCI-002884', 'CCI-004188']
-  tag nist: ['AU-12 c', 'MA-4 (1) (a)', 'MA-3 (5)']
+  tag cci: ['CCI-002884', 'CCI-000172']
+  tag nist: ['MA-4 (1) (a)', 'AU-12 c']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

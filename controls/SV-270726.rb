@@ -15,14 +15,16 @@ Add or update the "/etc/security/pwquality.conf" file to contain the "ucredit" p
 
 ucredit=-1'
   impact 0.5
+  tag check_id: 'C-74759r1066665_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000069-GPOS-00037'
+  tag satisfies: ['SRG-OS-000069-GPOS-00037', 'SRG-OS-000730-GPOS-00190']
   tag gid: 'V-270726'
   tag rid: 'SV-270726r1066667_rule'
   tag stig_id: 'UBTU-24-400260'
   tag fix_id: 'F-74660r1066666_fix'
-  tag cci: ['CCI-000192', 'CCI-004066', 'CCI-004065']
-  tag nist: ['IA-5 (1) (a)', 'IA-5 (1) (h)', 'IA-5 (1) (g)']
+  tag cci: ['CCI-004065', 'CCI-004066']
+  tag nist: ['IA-5 (1) (g)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

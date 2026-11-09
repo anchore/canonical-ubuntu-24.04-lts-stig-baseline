@@ -32,10 +32,9 @@ net.ipv4.tcp_syncookies = 1)
   tag stig_id: 'UBTU-24-600190'
   tag gtitle: 'SRG-OS-000142-GPOS-00071'
   tag fix_id: 'F-74687r1066747_fix'
-  tag satisfies: ['SRG-OS-000480-GPOS-00227', 'SRG-OS-000420-GPOS-00186', 'SRG-OS-000142-GPOS-00071']
   tag 'documentable'
-  tag cci: ['CCI-000366', 'CCI-001095', 'CCI-002385']
-  tag nist: ['CM-6 b', 'SC-5 (2)', 'SC-5 a']
+  tag cci: ['CCI-001095']
+  tag nist: ['SC-5 (2)']
   tag 'host'
 
   only_if('Control not applicable within a container', impact: 0.0) {

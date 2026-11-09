@@ -1,5 +1,5 @@
 control 'SV-270657' do
-  title 'Ubuntu 24.04 LTS must produce audit records and reports containing information to establish when, where, what type, the source, and the outcome for all DOD-defined auditable events and actions in near real time.'
+  title 'Ubuntu 24.04 LTS must produce audit records and reports containing information to establish when, where, what type, the source, and the outcome for all DoW-defined auditable events and actions in near real time.'
   desc 'Without establishing the when, where, type, source, and outcome of events that occurred, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack.
 
 Without the capability to generate audit records, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.
@@ -34,15 +34,16 @@ To reload the rules file, issue the following command:
 
 $ sudo augenrules --load'
   impact 0.5
+  tag check_id: 'C-74690r1066458_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000365-GPOS-00152'
-  tag satisfies: ['SRG-OS-000062-GPOS-00031', 'SRG-OS-000037-GPOS-00015', 'SRG-OS-000038-GPOS-00016', 'SRG-OS-000039-GPOS-00017', 'SRG-OS-000040-GPOS-00018', 'SRG-OS-000041-GPOS-00019', 'SRG-OS-000042-GPOS-00021', 'SRG-OS-000051-GPOS-00024', 'SRG-OS-000054-GPOS-00025', 'SRG-OS-000122-GPOS-00063', 'SRG-OS-000254-GPOS-00095', 'SRG-OS-000255-GPOS-00096', 'SRG-OS-000337-GPOS-00129', 'SRG-OS-000348-GPOS-00136', 'SRG-OS-000349-GPOS-00137', 'SRG-OS-000350-GPOS-00138', 'SRG-OS-000351-GPOS-00139', 'SRG-OS-000352-GPOS-00140', 'SRG-OS-000353-GPOS-00141', 'SRG-OS-000354-GPOS-00142', 'SRG-OS-000358-GPOS-00145', 'SRG-OS-000365-GPOS-00152', 'SRG-OS-000392-GPOS-00172', 'SRG-OS-000475-GPOS-00220', 'SRG-OS-000042-GPOS-00020']
+  tag satisfies: ['SRG-OS-000365-GPOS-00152', 'SRG-OS-000337-GPOS-00129', 'SRG-OS-000062-GPOS-00031', 'SRG-OS-000475-GPOS-00220', 'SRG-OS-000042-GPOS-00020', 'SRG-OS-000042-GPOS-00021', 'SRG-OS-000037-GPOS-00015', 'SRG-OS-000038-GPOS-00016', 'SRG-OS-000039-GPOS-00017', 'SRG-OS-000040-GPOS-00018', 'SRG-OS-000041-GPOS-00019', 'SRG-OS-000051-GPOS-00024', 'SRG-OS-000054-GPOS-00025', 'SRG-OS-000122-GPOS-00063', 'SRG-OS-000348-GPOS-00136', 'SRG-OS-000349-GPOS-00137', 'SRG-OS-000350-GPOS-00138', 'SRG-OS-000351-GPOS-00139', 'SRG-OS-000352-GPOS-00140', 'SRG-OS-000353-GPOS-00141', 'SRG-OS-000354-GPOS-00142']
   tag gid: 'V-270657'
-  tag rid: 'SV-270657r1066460_rule'
+  tag rid: 'SV-270657r1261509_rule'
   tag stig_id: 'UBTU-24-100410'
   tag fix_id: 'F-74591r1066459_fix'
-  tag cci: ['CCI-000169', 'CCI-000130', 'CCI-000131', 'CCI-000132', 'CCI-000133', 'CCI-000134', 'CCI-000135', 'CCI-000154', 'CCI-000158', 'CCI-000172', 'CCI-001464', 'CCI-001487', 'CCI-001814', 'CCI-001875', 'CCI-001876', 'CCI-001877', 'CCI-001878', 'CCI-001879', 'CCI-001880', 'CCI-001881', 'CCI-001882', 'CCI-001889', 'CCI-001914', 'CCI-002884', 'CCI-003938']
-  tag nist: ['AU-12 a', 'AU-3 a', 'AU-3 b', 'AU-3 c', 'AU-3 d', 'AU-3 e', 'AU-3 (1)', 'AU-6 (4)', 'AU-7 (1)', 'AU-12 c', 'AU-14 (1)', 'AU-3 f', 'CM-5 (1)', 'AU-7 a', 'AU-7 b', 'AU-8 b', 'AU-12 (3)', 'MA-4 (1) (a)', 'CM-5 (1) (b)']
+  tag cci: ['CCI-003938', 'CCI-001914', 'CCI-000169', 'CCI-000172', 'CCI-000135', 'CCI-000130', 'CCI-000131', 'CCI-000132', 'CCI-000133', 'CCI-000134', 'CCI-000154', 'CCI-000158', 'CCI-001876', 'CCI-001875', 'CCI-001877', 'CCI-001878', 'CCI-001879', 'CCI-001880', 'CCI-001881', 'CCI-001882']
+  tag nist: ['CM-5 (1) (b)', 'AU-12 (3)', 'AU-12 a', 'AU-12 c', 'AU-3 (1)', 'AU-3 a', 'AU-3 b', 'AU-3 c', 'AU-3 d', 'AU-3 e', 'AU-6 (4)', 'AU-7 (1)', 'AU-7 a', 'AU-7 b']
   tag 'host'
 
   only_if('This requirement is Not Applicable in the container', impact: 0.0) {

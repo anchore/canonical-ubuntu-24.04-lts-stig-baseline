@@ -22,8 +22,10 @@ $ sudo chmod 0755 [audit_tool]
 
 Replace "[audit_tool]" with the audit tool that does not have the correct permissions.'
   impact 0.5
+  tag check_id: 'C-74854r1134817_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000257-GPOS-00098'
+  tag satisfies: ['SRG-OS-000257-GPOS-00098', 'SRG-OS-000256-GPOS-00097']
   tag gid: 'V-270821'
   tag rid: 'SV-270821r1134818_rule'
   tag stig_id: 'UBTU-24-901230'

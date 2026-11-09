@@ -25,8 +25,8 @@ If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_pkcs11
   tag gtitle: 'SRG-OS-000384-GPOS-00167'
   tag fix_id: 'F-74672r1066702_fix'
   tag 'documentable'
-  tag cci: ['CCI-001991', 'CCI-004068']
-  tag nist: ['IA-5 (2) (d)', 'IA-5 (2) (b) (2)']
+  tag cci: ['CCI-004068']
+  tag nist: ['IA-5 (2) (b) (2)']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

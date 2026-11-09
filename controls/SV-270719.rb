@@ -34,6 +34,7 @@ To deny access to ports, protocols, or services, use:
 
      $ sudo ufw deny <direction> <port/protocol/service>'
   impact 0.5
+  tag check_id: 'C-74752r1066644_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000096-GPOS-00050'
   tag gid: 'V-270719'

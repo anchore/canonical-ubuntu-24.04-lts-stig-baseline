@@ -15,6 +15,7 @@ Edit the file "/etc/pam.d/common-auth" and set the parameter "pam_faildelay" to 
 
 auth    required    pam_faildelay.so    delay=4000000'
   impact 0.3
+  tag check_id: 'C-74739r1067170_chk'
   tag severity: 'low'
   tag gtitle: 'SRG-OS-000480-GPOS-00226'
   tag gid: 'V-270706'

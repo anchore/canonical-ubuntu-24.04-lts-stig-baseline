@@ -13,6 +13,7 @@ If the "/var/log" directory is not owned by root, this is a finding.'
 
 $ sudo chown root /var/log'
   impact 0.5
+  tag check_id: 'C-74799r1066785_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000206-GPOS-00084'
   tag gid: 'V-270766'

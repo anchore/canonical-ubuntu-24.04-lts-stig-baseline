@@ -18,14 +18,15 @@ Note: The btmp, wtmp, lastlog, history, and eipp.log.xz files are excluded. Refe
 
 $ sudo find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chmod 640 '{}' \;)
   impact 0.5
+  tag check_id: 'C-74789r1134812_chk'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000205-GPOS-00083'
   tag gid: 'V-270756'
   tag rid: 'SV-270756r1134814_rule'
   tag stig_id: 'UBTU-24-700010'
   tag fix_id: 'F-74690r1134813_fix'
-  tag cci: ['CCI-001314', 'CCI-001312']
-  tag nist: ['SI-11 b', 'SI-11 a']
+  tag cci: ['CCI-001312']
+  tag nist: ['SI-11 a']
   tag 'host'
   tag 'container'
 
