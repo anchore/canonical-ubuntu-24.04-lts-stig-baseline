@@ -53,9 +53,13 @@ Note: Restart the system for these settings to take effect.'
 
   expected_modes = input('expected_modes')
 
+  # `more_permissive_than?` only masks against 0777, so it flags the setgid bit DISA's 2755 allows.
+  # Compare all twelve permission bits instead: any bit outside the allowed mode is a finding.
+  exceeds_mode = ->(path, max_mode) { (file(path).mode.to_i & ~max_mode.to_i(8)).anybits?(0o7777) }
+
   journal_dirs = command('find /run/log/journal /var/log/journal  -type d -exec stat -c "%n" {} \;').stdout.split("\n")
   dir_mode = expected_modes['journal_dir']
-  non_compliant_journal_dirs = journal_dirs.select { |dir| file(dir).more_permissive_than?(dir_mode) }
+  non_compliant_journal_dirs = journal_dirs.select { |dir| exceeds_mode.call(dir, dir_mode) }
 
   describe 'All journal directories' do
     it "have a mode of '#{dir_mode}' or less permissive" do
@@ -65,7 +69,7 @@ Note: Restart the system for these settings to take effect.'
 
   journal_files = command('find /run/log/journal /var/log/journal  -type f -exec stat -c "%n" {} \;').stdout.split("\n")
   file_mode = expected_modes['journal_file']
-  non_compliant_journal_files = journal_files.select { |f| file(f).more_permissive_than?(file_mode) }
+  non_compliant_journal_files = journal_files.select { |f| exceeds_mode.call(f, file_mode) }
 
   describe 'Journal files' do
     it "have a mode of '#{file_mode}' or less permissive" do
