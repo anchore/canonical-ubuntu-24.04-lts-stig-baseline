@@ -31,8 +31,33 @@ $ sudo dconf update'
 
   xorg_status = command('which Xorg').exit_status
   if xorg_status == 0
-    describe command("grep -R logout='' /etc/dconf/db/local.d/").stdout.strip.split("\n").entries do
-      its('count') { should_not eq 0 }
+    # Collect every uncommented logout= setting in the media-keys section of the local dconf db.
+    # Unbound means DISA's V1R7 value `@as []`, or the V1R4 value `['']` (an empty binding).
+    section = 'org/gnome/settings-daemon/plugins/media-keys'
+    unbound = /\A(@as\s*\[\s*\]|\[\s*''\s*\])\z/
+    settings = []
+    command('find /etc/dconf/db/local.d -maxdepth 1 -type f').stdout.split("\n").sort.each do |path|
+      current = nil
+      file(path).content.to_s.each_line do |line|
+        line = line.strip
+        next if line.empty? || line.start_with?('#')
+
+        if (header = line[/\A\[(.+)\]\z/, 1])
+          current = header.strip
+        elsif current == section && (value = line[/\Alogout\s*=\s*(.*)\z/, 1])
+          settings << { path: path, value: value.strip }
+        end
+      end
+    end
+    bound = settings.reject { |s| s[:value] =~ unbound }
+
+    describe "The [#{section}] logout key in /etc/dconf/db/local.d/" do
+      it 'is set' do
+        expect(settings).not_to be_empty, 'No uncommented logout= setting found in that section'
+      end
+      it 'is not bound to an action' do
+        expect(bound).to be_empty, "Bound logout settings:\n\t- #{bound.map { |s| "#{s[:path]}: logout=#{s[:value]}" }.join("\n\t- ")}"
+      end
     end
   else
     impact 0.0
