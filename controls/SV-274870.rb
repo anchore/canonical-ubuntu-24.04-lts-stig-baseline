@@ -41,7 +41,9 @@ $ sudo augenrules --load'
   audited_paths.each do |audit_path|
     describe "Audit rules for #{audit_path}" do
       it "#{audit_path} is audited properly" do
-        audit_rule = auditd.file(audit_path)
+        # DISA's fix text writes the watches with a trailing slash ("-w /etc/cron.d/") and auditctl -l
+        # lists the path as written, so accept either spelling.
+        audit_rule = [audit_path, "#{audit_path}/"].map { |p| auditd.file(p) }.find(&:exist?) || auditd.file(audit_path)
         expect(audit_rule).to exist
         expect(audit_rule.permissions.flatten).to include('w', 'a')
         expect(audit_rule.key.uniq).to include(input('audit_rule_keynames').merge(input('audit_rule_keynames_overrides'))[audit_path])
