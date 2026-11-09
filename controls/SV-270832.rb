@@ -42,8 +42,22 @@ Note: Once this rule is active, further changes to the audit configuration will 
     !virtualization.container_system?
   }
 
-  describe file('/etc/audit/audit.rules') do
-    it { should exist }
-    its('content') { should match(/^-e\s+2\b/) }
+  # The running kernel's audit state: `auditctl -s` prints "enabled 2" once the rules are locked.
+  audit_status = command('auditctl -s').stdout
+  enabled = audit_status[/^enabled\s+(\d+)/, 1]
+
+  describe 'The running audit system' do
+    it 'is immutable (auditctl -s reports "enabled 2")' do
+      expect(enabled).to cmp('2'), "auditctl -s reported enabled=#{enabled.inspect}"
+    end
+  end
+
+  # Persistence across reboots: augenrules compiles /etc/audit/rules.d/*.rules into audit.rules.
+  immutable_rules = command("grep -HE '^-e[[:space:]]+2([[:space:]]|$)' /etc/audit/rules.d/*.rules").stdout.lines.map(&:strip)
+
+  describe 'The audit rules under /etc/audit/rules.d/' do
+    it 'set the "-e 2" option' do
+      expect(immutable_rules).not_to be_empty, 'No rules file under /etc/audit/rules.d/ sets "-e 2"'
+    end
   end
 end
