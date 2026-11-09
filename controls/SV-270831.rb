@@ -74,7 +74,8 @@ $ sudo cp -p /var/lib/aide/aide.db.new /var/lib/aide/aide.db)
     !virtualization.container_system?
   }
 
-  audit_tools = input('audit_tools')
+  # DISA V1R7 wants each tool under both the legacy /sbin and the canonical /usr/sbin path.
+  audit_tools = input('audit_tools').flat_map { |tool| [tool.sub(%r{\A/usr/sbin/}, '/sbin/'), tool.sub(%r{\A/sbin/}, '/usr/sbin/')] }.uniq
   audit_rule_suffix = 'p+i+n+u+g+s+b+acl+xattrs+sha512'
   file_integrity_tool = input('file_integrity_tool')
 
@@ -83,11 +84,22 @@ $ sudo cp -p /var/lib/aide/aide.db.new /var/lib/aide/aide.db)
       it { should exist }
     end
 
+    # Selection lines may live in aide.conf or in any file under aide.conf.d/; a tool that is
+    # defined more than once must have the exact rule every time (DISA: comment out duplicates).
+    aide_files = ['/etc/aide/aide.conf'] + command('find /etc/aide/aide.conf.d -type f').stdout.split("\n").sort
+    rules = Hash.new { |h, k| h[k] = [] }
+    aide_files.each do |path|
+      file(path).content.to_s.each_line do |line|
+        m = line.match(%r{\A\s*(/\S+)\s+(\S+)\s*\z})
+        rules[m[1]] << m[2] if m && audit_tools.include?(m[1])
+      end
+    end
+
     describe 'AIDE audit tools selection lines' do
-      it 'must include exact lines for all audit tools' do
-        config = parse_config_file('/etc/aide/aide.conf', assignment_regex: %r{^\s*(/\S+)\s+(.*?)\s*$})
-        missing = audit_tools.reject { |tool| config[tool].to_s == audit_rule_suffix }
-        expect(missing).to be_empty, "Missing or incorrect lines in /etc/aide/aide.conf for: #{missing.join(', ')}"
+      it "must include the exact rule #{audit_rule_suffix} for all audit tools" do
+        missing = audit_tools.reject { |tool| rules.key?(tool) && rules[tool].all?(audit_rule_suffix) }
+        details = missing.map { |tool| rules.key?(tool) ? "#{tool} (#{rules[tool].join(', ')})" : "#{tool} (not defined)" }
+        expect(missing).to be_empty, "Missing or incorrect lines in /etc/aide/aide.conf or /etc/aide/aide.conf.d/ for:\n\t- #{details.join("\n\t- ")}"
       end
     end
   else
