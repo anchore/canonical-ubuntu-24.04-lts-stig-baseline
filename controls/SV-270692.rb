@@ -58,9 +58,14 @@ $ sudo systemctl restart gdm3'
   xorg_status = command('which Xorg').exit_status
 
   if xorg_status == 0
-    describe 'banner-message-enable must be set to true' do
-      subject { command('grep banner-message-enable /etc/gdm3/greeter.dconf-defaults').stdout.strip }
-      it { should match(/banner-message-enable\s*=\s*true/) }
+    # Anchored like DISA's `grep ^banner-message-enable`, so a commented-out line does not count.
+    settings = command('grep ^banner-message-enable /etc/gdm3/greeter.dconf-defaults').stdout.lines.map(&:strip)
+
+    describe 'banner-message-enable in /etc/gdm3/greeter.dconf-defaults' do
+      it 'is set to true' do
+        compliant = !settings.empty? && settings.all? { |l| l.match?(/\Abanner-message-enable\s*=\s*true\z/) }
+        expect(compliant).to be(true), "Found: #{settings.empty? ? 'not set (missing or commented out)' : settings.join('; ')}"
+      end
     end
   else
     describe xorg_status do
