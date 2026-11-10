@@ -33,8 +33,7 @@ $ sudo systemctl restart ssh'
   tag 'container-conditional'
 
   setting = 'ClientAliveInterval'
-  gssapi_authentication = input('sshd_config_values')
-  value = gssapi_authentication[setting]
+  max_interval = input('sshd_config_values')[setting].to_i
   openssh_present = package('openssh-server').installed?
   is_container = virtualization.container_system?
   allow_container_openssh = input('allow_container_openssh_server')
@@ -50,9 +49,17 @@ $ sudo systemctl restart ssh'
       end
     end
   else
-    describe 'The OpenSSH Server configuration' do
-      it "has the correct #{setting} configuration" do
-        expect(sshd_active_config.params[setting.downcase]).to cmp(value), "The #{setting} setting in the SSHD config is not correct. Please ensure it set to '#{value}'."
+    # DISA greps every sshd config file (/etc/ssh/sshd_config*); sshd_active_config reads only the
+    # main file and does not follow Include, so read the sshd_config.d drop-ins too. Comment lines
+    # are skipped; a trailing comment and quotes are dropped, as sshd does.
+    lines = command("grep -iHs -E '^[[:space:]]*clientaliveinterval([[:space:]]|=)' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/*.conf").stdout.lines.map(&:strip)
+    values = lines.map { |l| l.sub(/\A.*?:(?=[[:space:]]*clientaliveinterval[[:space:]=])/i, '').strip.sub(/^clientaliveinterval[[:space:]=]+/i, '').sub(/[[:space:]]+#.*\z/, '').delete(%q("')).strip }.uniq
+
+    describe "#{setting} in /etc/ssh/sshd_config and /etc/ssh/sshd_config.d/*.conf" do
+      # "600 or less": 0 switches the keepalive (and so the timeout) off, so it is a finding too.
+      it "is set once, to between 1 and #{max_interval} seconds" do
+        compliant = values.length == 1 && values.first.match?(/\A\d+\z/) && values.first.to_i.between?(1, max_interval)
+        expect(compliant).to be(true), "Found: #{lines.empty? ? 'not set (missing or commented out)' : lines.join('; ')}"
       end
     end
   end
