@@ -468,9 +468,9 @@ inputs:
   
   # SV-270725
   - name: password_hash_rounds
-    description: Number of rounds for hashing passwords
+    description: Minimum number of rounds for hashing passwords
     type: Numeric
-    value: 5000
+    value: 100000
 
   
   # SV-270708
