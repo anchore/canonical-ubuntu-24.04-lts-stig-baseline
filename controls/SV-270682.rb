@@ -43,7 +43,14 @@ $ sudo chage -E $(date -d +3days +%Y-%m-%d) <temporary_account_name>'
     end
   else
     tmp_users_existing = tmp_users.select { |u| user(u).exists? }
-    failing_users = tmp_users_existing.select { |u| user(u).maxdays > tmp_max_days }
+    # DISA checks the account expiration (`chage -l ... | grep "account expires"`), not the password
+    # lifetime: /etc/shadow field 8, in days since the epoch, empty when the account never expires.
+    # An account fails if it never expires or expires more than tmp_max_days from today.
+    today = command('date +%s').stdout.strip.to_i / 86_400
+    failing_users = tmp_users_existing.select do |u|
+      expiry = shadow.where(user: u).expiry_dates.first.to_s.strip
+      !expiry.match?(/\A\d+\z/) || expiry.to_i - today > tmp_max_days
+    end
     missing_users = tmp_users - tmp_users_existing
 
     describe 'Temporary accounts' do
