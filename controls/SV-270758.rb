@@ -34,7 +34,15 @@ $ sudo chmod 740 /usr/bin/journalctl'
   journalctl = '/usr/bin/journalctl'
   journalctl_mode = input('expected_modes')[journalctl]
 
-  describe file(journalctl) do
-    it { should_not be_more_permissive_than(journalctl_mode) }
+  # `be_more_permissive_than` masks with 0777, so a setuid/setgid/sticky bit would pass. Compare all
+  # twelve permission bits, as SV-270757 does: any bit outside the allowed mode is a finding.
+  mode = file(journalctl).mode.to_i
+  describe "#{journalctl} mode" do
+    it 'exists' do
+      expect(file(journalctl).exist?).to be(true)
+    end
+    it "is #{journalctl_mode} or less permissive" do
+      expect((mode & ~journalctl_mode.to_i(8)).anybits?(0o7777)).to be(false), "Found mode #{format('%04o', mode)}"
+    end
   end
 end
