@@ -285,6 +285,19 @@ inputs:
       - /usr/local/bin
       - /usr/local/sbin
 
+  # SV-270703
+  - name: system_command_groups
+    description: Groups allowed to own system commands (root and the required system groups in DISA's check; add others your system requires)
+    type: Array
+    value:
+      - root
+      - daemon
+      - adm
+      - shadow
+      - mail
+      - crontab
+      - _ssh
+
   
   # SV-270821, SV-270822, SV-270823, SV-270831
   - name: audit_tools

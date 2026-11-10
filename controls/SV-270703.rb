@@ -26,11 +26,15 @@ $ sudo chgrp [SYSTEMACCOUNT] [FILE]'
   tag 'host'
   tag 'container'
 
-  failing_files = command("find -L #{input('system_command_dirs').join(' ')} -type f ! -group root ! -perm /2000 -exec ls -d {} \\;").stdout.split("\n")
+  # DISA lists executables whose group is not root or a required system group (its awk filter).
+  # SGID files get no exemption of their own: their group must be on the approved list too.
+  approved_groups = input('system_command_groups')
+  owners = command("find -L #{input('system_command_dirs').join(' ')} -type f -perm -u=x -exec stat -c '%n %G' {} +").stdout.lines.map(&:chomp)
+  failing_files = owners.map { |l| l.rpartition(' ') }.reject { |_, _, group| approved_groups.include?(group) }.map { |path, _, group| "#{path} (#{group})" }.uniq
 
   describe 'System commands' do
-    it 'should be group-owned by root' do
-      expect(failing_files).to be_empty, "Files not group-owned by root:\n\t- #{failing_files.join("\n\t- ")}"
+    it "should be group-owned by root or a required system group (#{approved_groups.join(', ')})" do
+      expect(failing_files).to be_empty, "Files not group-owned by an approved group:\n\t- #{failing_files.join("\n\t- ")}"
     end
   end
 end
