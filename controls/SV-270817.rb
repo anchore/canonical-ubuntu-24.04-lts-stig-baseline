@@ -30,8 +30,10 @@ The script must be located in the "/etc/cron.weekly" directory.'
   tag 'host'
   tag 'container-conditional'
 
-  only_if('This control is Not Applicable to containers or airgapped systems', impact: 0.0) {
-    !virtualization.container_system? && !input('airgapped_system')
+  # DISA: "If this is an interconnected system, this is not applicable." The weekly offload to
+  # external media applies to standalone (airgapped) systems only.
+  only_if('This control is Not Applicable to containers or interconnected (non-airgapped) systems', impact: 0.0) {
+    !virtualization.container_system? && input('airgapped_system')
   }
 
   cron_file = input('audit_offload_script')
