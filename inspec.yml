@@ -1,6 +1,6 @@
 name: canonical-ubuntu-24.04-lts-stig-baseline
 title: "Canonical Ubuntu 24.04 LTS Security Technical Implementation Guide ::
-  Version 1, Release 4 :: Benchmark Date:  22 Jan 2026"
+  Version 1, Release 7 :: Benchmark Date:  30 Sep 2026"
 maintainer: MITRE SAF Team
 copyright: MITRE
 copyright_email: saf@groups.mitre.org
