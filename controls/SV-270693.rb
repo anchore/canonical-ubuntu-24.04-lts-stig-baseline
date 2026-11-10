@@ -63,8 +63,20 @@ $ sudo systemctl restart gdm3)
       skip 'A GUI desktop is not installed, this control is Not Applicable.'
     end
   else
-    describe command('grep ^banner-message-enable /etc/dconf/db/local.d/*') do
-      its('stdout.strip') { should cmp 'banner-message-enable=true' }
+    # DISA: `grep ^banner-message-text /etc/gdm3/greeter.dconf-defaults` must return the standard
+    # banner exactly. The GUI banner is the same DoW text as the CLI one, so compare it with
+    # banner_message_text_cli, ignoring whitespace, quoting and "\n" escapes as SV-270691 does.
+    expected_banner = input('banner_message_text_cli').gsub(/[\r\n\s]/, '')
+    settings = command('grep ^banner-message-text /etc/gdm3/greeter.dconf-defaults').stdout.lines.map(&:strip)
+    banners = settings.map do |l|
+      l.sub(/\Abanner-message-text\s*=\s*/, '').strip.sub(/\A(['"])(.*)\1\z/m, '\2').gsub(/\\[nt]/, ' ').gsub(/\\(.)/, '\1').gsub(/[\r\n\s]/, '')
+    end
+
+    describe 'banner-message-text in /etc/gdm3/greeter.dconf-defaults' do
+      it 'is set to the Standard Mandatory DoW Notice and Consent Banner' do
+        compliant = !banners.empty? && banners.all?(expected_banner)
+        expect(compliant).to be(true), settings.empty? ? 'banner-message-text is not set (missing or commented out)' : 'banner-message-text does not match the standard banner'
+      end
     end
   end
 end
