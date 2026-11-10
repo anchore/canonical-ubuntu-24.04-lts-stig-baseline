@@ -18,16 +18,14 @@ Update the dconf settings:
 
 $ sudo dconf update"
   impact 0.7
-  tag check_id: 'C-74744r1101770_chk'
   tag severity: 'high'
+  tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag gid: 'V-270711'
   tag rid: 'SV-270711r1101772_rule'
   tag stig_id: 'UBTU-24-300025'
-  tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag fix_id: 'F-74645r1101771_fix'
-  tag 'documentable'
-  tag cci: ['CCI-000366']
-  tag nist: ['CM-6 b']
+  tag cci: ['CCI-000366', 'CCI-002235']
+  tag nist: ['CM-6 b', 'AC-6 (10)']
   tag 'host'
 
   xorg_status = command('which Xorg').exit_status

@@ -2,9 +2,7 @@ control 'SV-274868' do
   title 'Ubuntu 24.04 LTS must require users to provide a password for privilege escalation.'
   desc 'Without reauthentication, users may access resources or perform tasks for which they do not have authorization.
 
-When operating systems provide the capability to escalate a functional capability, it is critical that the user reauthenticate.
-
-'
+When operating systems provide the capability to escalate a functional capability, it is critical that the user reauthenticate.'
   desc 'check', %q(Verify that "/etc/sudoers" has no occurrences of "NOPASSWD" with the following command:
 
 $ sudo egrep -iR 'NOPASSWD' /etc/sudoers /etc/sudoers.d/
@@ -25,14 +23,21 @@ $ sudo find /etc/sudoers /etc/sudoers.d -type f -exec sed -i '/NOPASSWD/ s/^/# /
   tag fix_id: 'F-78874r1101744_fix'
   tag satisfies: ['SRG-OS-000373-GPOS-00156', 'SRG-OS-000373-GPOS-00157', 'SRG-OS-000373-GPOS-00158']
   tag 'documentable'
-  tag cci: ['CCI-000366']
-  tag nist: ['CM-6 b']
+  tag cci: ['CCI-002038', 'CCI-004895', 'CCI-000366']
+  tag nist: ['IA-11', 'SC-11 b', 'CM-6 b']
+  tag 'host'
 
-  nopasswd_occurrences = command("egrep -iR 'NOPASSWD' /etc/sudoers /etc/sudoers.d/")
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.container_system?
+  }
 
-  describe 'Users are required to provide password for privilege escalation' do
-    it 'should not find users with nopasswd set' do
-      expect(nopasswd_occurrences).to be_empty
+  failing_results = sudoers(input('sudoers_config_files').join(' ')).rules.where { tags.nil? && (tags || '').include?('NOPASSWD') }
+
+  failing_results = failing_results.where { !input('passwordless_admins').include?(users) } if input('passwordless_admins').nil?
+
+  describe 'Sudoers' do
+    it 'should not include any (non-exempt) users with NOPASSWD set' do
+      expect(failing_results.users).to be_empty, "NOPASSWD settings found for users:\n\t- #{failing_results.users.join("\n\t- ")}"
     end
   end
 end

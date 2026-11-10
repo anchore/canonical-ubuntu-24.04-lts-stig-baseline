@@ -17,7 +17,7 @@ Check that the automount setting is locked from nonprivileged user modification 
 
 Note: The example below is using the database "local" for the system, so the path is "/etc/dconf/db/local.d". This path must be modified if a database other than "local" is being used.
 
-$ grep 'automount-open' /etc/dconf/db/local.d/locks/* 
+$ grep 'automount-open' /etc/dconf/db/local.d/locks/*
 
 /org/gnome/desktop/media-handling/automount-open
 
@@ -43,12 +43,40 @@ $ sudo dconf update'
   tag 'documentable'
   tag cci: ['CCI-000056']
   tag nist: ['AC-11 b']
+  tag 'host'
 
-  only_if('This requirement is Not Applicable in the container', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.container_system?
   }
 
-  describe('Verify automount settings if a graphical environment is present') do
-    skip('Must verify manually')
+  only_if('This requirement is not applicable because GNOME is not installed.', impact: 0.0) do
+    package('gnome-shell').installed? || file('/usr/bin/gnome-shell').exist?
+  end
+
+  profile_file = '/etc/dconf/profile/user'
+
+  describe file(profile_file) do
+    it { should exist }
+    it { should be_file }
+  end
+
+  system_db = 'local'
+  if file(profile_file).exist?
+    content = file(profile_file).content.to_s
+    m = content.match(/^\s*system-db\s*:\s*([^\s#]+).*$/)
+    system_db = m[1] if m
+  end
+
+  locks_dir = "/etc/dconf/db/#{system_db}.d/locks"
+  required_lock = '/org/gnome/desktop/media-handling/automount-open'
+
+  describe file(locks_dir) do
+    it { should exist }
+    it { should be_directory }
+  end
+
+  describe command("grep -Rhs '^#{Regexp.escape(required_lock)}$' #{locks_dir} 2>/dev/null") do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should include(required_lock) }
   end
 end

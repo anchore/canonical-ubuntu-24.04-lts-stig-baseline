@@ -10,9 +10,9 @@ The session lock is implemented at the point where session activity can be deter
 Verify Ubuntu 24.04 LTS disables the ability of the user to override the smart card removal action setting.
 
 $ gsettings writable org.gnome.settings-daemon.peripherals.smartcard removal-action
- 
+
 false
- 
+
 If "removal-action" is writable and the result is "true", this is a finding.'
   desc 'fix', 'Configure Ubuntu 24.04 LTS to prevent a user from overriding the disabling of the graphical user smart card removal action.
 
@@ -35,8 +35,21 @@ $ sudo dconf update'
   tag 'documentable'
   tag cci: ['CCI-000056', 'CCI-000057', 'CCI-000058']
   tag nist: ['AC-11 b', 'AC-11 a', 'AC-11 a']
+  tag 'host'
 
-  describe 'If GUI is present prevent override disabling of smart card removal' do
-    skip 'Manual check'
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.container_system?
+  }
+
+  if package('gnome-shell').installed?
+    describe file('/etc/dconf/db/local.d/locks/00-security-settings-lock') do
+      its('content') { should match %r{/org/gnome/settings-daemon/peripherals/smartcard/removal-action} }
+    end
+  else
+    impact 0.0
+    describe 'The system does not have GNOME installed' do
+      skip "The system does not have GNOME installed, this requirement is Not
+        Applicable."
+    end
   end
 end

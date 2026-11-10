@@ -2,6 +2,8 @@ AllCops:
   NewCops: enable
   Exclude:
   - "libraries/**/*"
+  # InSpec dependencies carry their own lint rules and are checked upstream.
+  - "vendor/**/*"
 
 Layout/LineLength:
   Max: 1500
@@ -64,7 +66,7 @@ Style/FrozenStringLiteralComment:
 # The following cops were added to RuboCop, but are not configured.
 # Please set Enabled to either `true` or `false` in your `.rubocop.yml` file.
 # For more information: https://docs.rubocop.org/rubocop/versioning.html
-Gemspec/DateAssignment: # new in 1.10
+Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
 Gemspec/RequireMFA: # new in 1.23
   Enabled: true
