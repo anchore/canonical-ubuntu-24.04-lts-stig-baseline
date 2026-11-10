@@ -54,10 +54,9 @@ lifecycle:
         sudo DEBIAN_FRONTEND=noninteractive apt-get -y install bc dnsutils lsb-release vim git wget curl build-essential libssl-dev libffi-dev libbz2-dev
         echo ""
         echo "+++ Installing Python and Ansible +++\n\n"
-        export PATH=/usr/local/bin:$PATH
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install python3-pip
-        python3 -m pip install --user --upgrade pip
-        python3 -m pip install --user ansible jmespath
+        # Ubuntu 24.04's Python is externally managed (PEP 668), so pip --user fails; use the distro
+        # packages, which also put ansible in /usr/bin where ansible_binary_path expects it.
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install ansible python3-jmespath
         echo ""
         echo "+++ Updating the ubuntu user to keep sudo working after hardening phase +++\n\n"
         sudo chage -d $(( $( date +%s ) / 86400 )) ubuntu
