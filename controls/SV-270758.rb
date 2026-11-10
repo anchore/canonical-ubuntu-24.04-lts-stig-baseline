@@ -24,6 +24,7 @@ $ sudo chmod 740 /usr/bin/journalctl'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']
   tag 'host'
+  tag 'container-conditional'
 
   # In containers, check the journalctl the image ships; N/A when there is none.
   only_if('This control is Not Applicable to containers without journalctl', impact: 0.0) {
