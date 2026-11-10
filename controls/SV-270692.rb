@@ -55,9 +55,13 @@ $ sudo systemctl restart gdm3'
   tag cci: ['CCI-000048']
   tag nist: ['AC-8 a']
 
-  xorg_status = command('which Xorg').exit_status
+  # Same GUI detection as SV-270693: Xorg, an X11 or Wayland session, or GDM itself (gdm3
+  # without recommends gives gnome-shell and Xwayland but no Xorg).
+  gui_installed = command('which Xorg').exit_status.zero? ||
+                  package('gdm3').installed? ||
+                  !command('ls /usr/share/xsessions/* /usr/share/wayland-sessions/*').stdout.strip.empty?
 
-  if xorg_status == 0
+  if gui_installed
     # Anchored like DISA's `grep ^banner-message-enable`, so a commented-out line does not count.
     settings = command('grep ^banner-message-enable /etc/gdm3/greeter.dconf-defaults').stdout.lines.map(&:strip)
 
@@ -69,8 +73,8 @@ $ sudo systemctl restart gdm3'
     end
   else
     impact 0.0
-    describe xorg_status do
-      skip("GUI not installed.\nwhich Xorg exit_status: #{xorg_status}")
+    describe 'The system does not have a GUI installed, this control is Not Applicable' do
+      skip 'A GUI (Xorg, an X11/Wayland session or gdm3) is not installed, this control is Not Applicable.'
     end
   end
 end

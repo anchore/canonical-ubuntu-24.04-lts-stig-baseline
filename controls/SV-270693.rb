@@ -55,7 +55,11 @@ $ sudo systemctl restart gdm3)
   tag nist: ['AC-8 a']
   tag 'host'
 
-  no_gui = command('ls /usr/share/xsessions/*').stderr.match?(/No such file or directory/)
+  # Same GUI detection as SV-270692: Xorg, an X11 or Wayland session, or GDM itself (gdm3
+  # without recommends gives gnome-shell and Xwayland but no Xorg).
+  no_gui = !(command('which Xorg').exit_status.zero? ||
+              package('gdm3').installed? ||
+              !command('ls /usr/share/xsessions/* /usr/share/wayland-sessions/*').stdout.strip.empty?)
 
   if no_gui
     impact 0.0
