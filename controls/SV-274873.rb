@@ -43,7 +43,8 @@ $ sudo dconf update'
 
   if package('gnome-shell').installed?
     describe file('/etc/dconf/db/local.d/locks/00-security-settings-lock') do
-      its('content') { should match %r{/org/gnome/settings-daemon/peripherals/smartcard/removal-action} }
+      # Only an active lock line counts; a commented-out one leaves the key writable.
+      its('content') { should match %r{^\s*/org/gnome/settings-daemon/peripherals/smartcard/removal-action\s*$} }
     end
   else
     impact 0.0

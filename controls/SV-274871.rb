@@ -43,10 +43,12 @@ $ sudo dconf update)
 
   if package('gnome-shell').installed?
     describe file('/etc/dconf/db/local.d/00-security-settings') do
-      its('content') { should match %r{^\[org/gnome/desktop/screensaver\]\npicture-uri=''\s*$} }
+      # picture-uri='' anywhere in the [org/gnome/desktop/screensaver] section, before the next section header.
+      its('content') { should match %r{^\[org/gnome/desktop/screensaver\]\s*$(?:\n(?!\s*\[).*)*?\n\s*picture-uri\s*=\s*''\s*$} }
     end
     describe file('/etc/dconf/db/local.d/locks/00-security-settings-lock') do
-      its('content') { should match %r{/org/gnome/desktop/screensaver/picture-uri} }
+      # Only an active lock line counts; a commented-out one leaves the key writable.
+      its('content') { should match %r{^\s*/org/gnome/desktop/screensaver/picture-uri\s*$} }
     end
   else
     impact 0.0
