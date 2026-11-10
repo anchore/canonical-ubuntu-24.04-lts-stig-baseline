@@ -31,13 +31,14 @@ $ sudo find /etc/sudoers /etc/sudoers.d -type f -exec sed -i '/NOPASSWD/ s/^/# /
     !virtualization.container_system?
   }
 
-  failing_results = sudoers(input('sudoers_config_files').join(' ')).rules.where { tags.nil? && (tags || '').include?('NOPASSWD') }
-
-  failing_results = failing_results.where { !input('passwordless_admins').include?(users) } if input('passwordless_admins').nil?
+  # passwordless_admins lists ISSO-approved administrative groups; accept them written as "group" or "%group".
+  approved = Array(input('passwordless_admins')).flat_map { |a| [a, "%#{a.delete_prefix('%')}"] }
+  nopasswd_rules = sudoers(input('sudoers_config_files')).rules.where { !tags.nil? && Array(tags).join.include?('NOPASSWD') }
+  failing_results = nopasswd_rules.where { (Array(users) - approved).any? }
 
   describe 'Sudoers' do
     it 'should not include any (non-exempt) users with NOPASSWD set' do
-      expect(failing_results.users).to be_empty, "NOPASSWD settings found for users:\n\t- #{failing_results.users.join("\n\t- ")}"
+      expect(failing_results.users.flatten.uniq).to be_empty, "NOPASSWD settings found for users:\n\t- #{failing_results.users.flatten.uniq.join("\n\t- ")}"
     end
   end
 end
