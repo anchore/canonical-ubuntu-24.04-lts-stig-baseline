@@ -20,7 +20,7 @@ Set the system to the required kernel parameter by adding or modifying the follo
 
      kernel.dmesg_restrict = 1
 
-Remove any configurations that conflict with the above from the following locations: 
+Remove any configurations that conflict with the above from the following locations:
      /run/sysctl.d/
      /etc/sysctl.d/
      /usr/local/lib/sysctl.d/
@@ -34,18 +34,17 @@ Reload settings from all system configuration files with the following command:
   impact 0.3
   tag check_id: 'C-74782r1067179_chk'
   tag severity: 'low'
-  tag gid: 'V-270749'
-  tag rid: 'SV-270749r1067179_rule'
-  tag stig_id: 'UBTU-24-600140'
   tag gtitle: 'SRG-OS-000138-GPOS-00069'
+  tag gid: 'V-270749'
+  tag rid: 'SV-270749r1268233_rule'
+  tag stig_id: 'UBTU-24-600140'
   tag fix_id: 'F-74683r1066735_fix'
-  tag 'documentable'
   tag cci: ['CCI-001090']
   tag nist: ['SC-4']
   tag 'host'
 
   only_if('Control not applicable within a container', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !virtualization.container_system?
   }
 
   parameter = 'kernel.dmesg_restrict'

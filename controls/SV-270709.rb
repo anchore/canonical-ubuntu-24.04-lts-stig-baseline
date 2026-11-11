@@ -13,28 +13,35 @@ Edit the "/etc/ssh/sshd_config" file to uncomment or add the line for the "X11Us
  
 X11UseLocalhost yes 
  
-Restart the SSH daemon for the changes to take effect: 
- 
-$ sudo systemctl restart sshd.service'
+Restart SSH for the changes to take effect: 
+
+$ sudo systemctl restart ssh'
   impact 0.5
   tag check_id: 'C-74742r1066614_chk'
   tag severity: 'medium'
-  tag gid: 'V-270709'
-  tag rid: 'SV-270709r1066616_rule'
-  tag stig_id: 'UBTU-24-300023'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
-  tag fix_id: 'F-74643r1066615_fix'
-  tag 'documentable'
+  tag gid: 'V-270709'
+  tag rid: 'SV-270709r1268251_rule'
+  tag stig_id: 'UBTU-24-300023'
+  tag fix_id: 'F-74643r1208294_fix'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
   tag 'host'
   tag 'container-conditional'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(virtualization.system.eql?('docker') && !file('/etc/ssh/sshd_config').exist?)
+    !virtualization.container_system? || package('openssh-server').installed?
   }
 
-  describe sshd_config do
-    its('X11UseLocalhost') { should cmp 'yes' }
+  # DISA greps every sshd config file (/etc/ssh/sshd_config*), so read the main file and the
+  # sshd_config.d drop-ins it includes, not only the main file. Comment lines are skipped.
+  x11_lines = command("grep -iHs -E '^[[:space:]]*x11uselocalhost([[:space:]]|=)' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/*.conf").stdout.lines.map(&:strip)
+  # Drop the "file:" prefix and keyword, plus a trailing comment and quotes, which sshd also ignores.
+  x11_values = x11_lines.map { |l| l.sub(/\A.*?:(?=[[:space:]]*x11uselocalhost[[:space:]=])/i, '').strip.sub(/^x11uselocalhost[[:space:]=]+/i, '').sub(/[[:space:]]+#.*\z/, '').delete(%q("')).strip.downcase }.uniq
+
+  describe 'X11UseLocalhost in /etc/ssh/sshd_config and /etc/ssh/sshd_config.d/*.conf' do
+    it 'is set to yes, with no conflicting values' do
+      expect(x11_values == ['yes']).to be(true), "Found: #{x11_lines.empty? ? 'not set (missing or commented out)' : x11_lines.join('; ')}"
+    end
   end
 end

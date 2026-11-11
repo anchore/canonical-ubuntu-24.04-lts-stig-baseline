@@ -13,17 +13,15 @@ A privileged account is defined as an information system account with authorizat
  
 Network access is defined as access to an information system by a user (or a process acting on behalf of a user) communicating through a network (e.g., local area network, wide area network, or the internet). 
  
-The DOD common access card (CAC) with DOD-approved PKI is an example of multifactor authentication.
-
-'
+The DoW common access card (CAC) with DoW-approved PKI is an example of multifactor authentication.'
   desc 'check', 'Verify the sshd daemon allows public key authentication with the following command:
- 
+
 $ sudo grep -r ^PubkeyAuthentication /etc/ssh/sshd_config*
 /etc/ssh/sshd_config:PubkeyAuthentication yes
 
 If "PubkeyAuthentication" is not set to "yes", is commented out, is missing, or conflicting results are returned, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 24.04 LTS to use multifactor authentication for access to accounts. 
- 
+  desc 'fix', 'Configure Ubuntu 24.04 LTS to use multifactor authentication for access to accounts.
+
 Set the sshd option "PubkeyAuthentication" to "yes" in the "/etc/ssh/sshd_config" file.
 
 PubkeyAuthentication yes'
@@ -31,7 +29,7 @@ PubkeyAuthentication yes'
   tag check_id: 'C-74755r1067129_chk'
   tag severity: 'medium'
   tag gid: 'V-270722'
-  tag rid: 'SV-270722r1067130_rule'
+  tag rid: 'SV-270722r1268228_rule'
   tag stig_id: 'UBTU-24-400030'
   tag gtitle: 'SRG-OS-000105-GPOS-00052'
   tag fix_id: 'F-74656r1066654_fix'
@@ -39,19 +37,19 @@ PubkeyAuthentication yes'
   tag 'documentable'
   tag cci: ['CCI-000765', 'CCI-000766']
   tag nist: ['IA-2 (1)', 'IA-2 (2)']
+  tag 'host'
 
-  if virtualization.system.eql?('docker')
-    impact 0.0
-    describe 'Control not applicable to a container' do
-      skip 'Control not applicable to a container'
-    end
-  elsif input('pki_disabled')
+  only_if('Control not applicable within a container', impact: 0.0) do
+    !virtualization.container_system?
+  end
+
+  if input('pki_disabled')
     impact 0.0
     describe 'This system is not using PKI for authentication so the controls is Not Applicable.' do
       skip 'This system is not using PKI for authentication so the controls is Not Applicable.'
     end
   else
-    describe sshd_config do
+    describe sshd_active_config do
       its('PubkeyAuthentication') { should cmp 'yes' }
     end
   end

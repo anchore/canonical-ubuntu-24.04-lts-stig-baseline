@@ -1,7 +1,7 @@
 control 'SV-270758' do
   title 'Ubuntu 24.04 LTS must be configured so that the "journalctl" command is not accessible by unauthorized users.'
-  desc 'Any operating system providing too much information in error messages risks compromising the data and security of the structure, and content of error messages must be carefully considered by the organization. 
- 
+  desc 'Any operating system providing too much information in error messages risks compromising the data and security of the structure, and content of error messages must be carefully considered by the organization.
+
 Organizations carefully consider the structure/content of error messages. The extent to which information systems are able to identify and handle error conditions is guided by organizational policy and operational requirements. Information that could be exploited by adversaries includes, for example, erroneous logon attempts with passwords entered by mistake as the username, mission/business information that can be derived from (if not stated explicitly by) information recorded, and personal information, such as account numbers, social security numbers, and credit card numbers.'
   desc 'check', 'Verify the journalctl command has a permission set of "740" with the following command:
 
@@ -23,8 +23,26 @@ $ sudo chmod 740 /usr/bin/journalctl'
   tag 'documentable'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']
+  tag 'host'
+  tag 'container-conditional'
 
-  describe file('/usr/bin/journalctl') do
-    it { should_not be_more_permissive_than('740') }
+  # In containers, check the journalctl the image ships; N/A when there is none.
+  only_if('This control is Not Applicable to containers without journalctl', impact: 0.0) {
+    !virtualization.container_system? || file('/usr/bin/journalctl').exist?
+  }
+
+  journalctl = '/usr/bin/journalctl'
+  journalctl_mode = input('expected_modes')[journalctl]
+
+  # `be_more_permissive_than` masks with 0777, so a setuid/setgid/sticky bit would pass. Compare all
+  # twelve permission bits, as SV-270757 does: any bit outside the allowed mode is a finding.
+  mode = file(journalctl).mode.to_i
+  describe "#{journalctl} mode" do
+    it 'exists' do
+      expect(file(journalctl).exist?).to be(true)
+    end
+    it "is #{journalctl_mode} or less permissive" do
+      expect((mode & ~journalctl_mode.to_i(8)).anybits?(0o7777)).to be(false), "Found mode #{format('%04o', mode)}"
+    end
   end
 end

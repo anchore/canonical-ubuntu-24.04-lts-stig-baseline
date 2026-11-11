@@ -1,10 +1,10 @@
 control 'SV-270692' do
-  title 'Ubuntu 24.04 LTS must enable the graphical user logon banner to display the Standard Mandatory DOD Notice and Consent Banner before granting local access to the system via a graphical user logon.'
+  title 'Ubuntu 24.04 LTS must enable the graphical user logon banner to display the Standard Mandatory DoW Notice and Consent Banner before granting local access to the system via a graphical user logon.'
   desc %q(Display of a standardized and approved use notification before granting access to Ubuntu 24.04 LTS ensures privacy and security notification verbiage used is consistent with applicable federal laws, Executive Orders, directives, policies, regulations, standards, and guidance. 
  
 System use notifications are required only for access via logon interfaces with human users and are not required when such human interfaces do not exist. 
  
-The banner must be formatted in accordance with applicable DOD policy. Use the following verbiage for operating systems that can accommodate banners of 1300 characters: 
+The banner must be formatted in accordance with applicable DoW policy. Use the following verbiage for operating systems that can accommodate banners of 1300 characters: 
  
 "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. 
  
@@ -25,13 +25,13 @@ Use the following verbiage for operating systems that have severe limitations on
 "I've read (literal ampersand) consent to terms in IS user agreem't.")
   desc 'check', 'Note: If the system does not have a graphical user interface installed, this requirement is not applicable. 
 
-Verify Ubuntu 24.04 LTS is configured to display the Standard Mandatory DOD Notice and Consent Banner before granting access to Ubuntu 24.04 LTS via a graphical user logon with the following command: 
+Verify Ubuntu 24.04 LTS is configured to display the Standard Mandatory DoW Notice and Consent Banner before granting access to Ubuntu 24.04 LTS via a graphical user logon with the following command: 
  
 $ grep ^banner-message-enable /etc/gdm3/greeter.dconf-defaults
 banner-message-enable=true
  
 If the value for "banner-message-enable" is set to "false", the line is commented out, or no value is returned, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 24.04 LTS to display the Standard Mandatory DOD Notice and Consent Banner before granting access to Ubuntu 24.04 LTS via a graphical user logon.
+  desc 'fix', 'Configure Ubuntu 24.04 LTS to display the Standard Mandatory DoW Notice and Consent Banner before granting access to Ubuntu 24.04 LTS via a graphical user logon.
 
 Edit the "/etc/gdm3/greeter.dconf-defaults" file. 
  
@@ -44,27 +44,37 @@ Update the GDM with the new configuration:
 $ sudo dconf update 
 $ sudo systemctl restart gdm3'
   impact 0.5
-  tag check_id: 'C-74725r1066563_chk'
+  tag check_id: 'C-74725r1261525_chk'
   tag severity: 'medium'
   tag gid: 'V-270692'
-  tag rid: 'SV-270692r1066565_rule'
+  tag rid: 'SV-270692r1268215_rule'
   tag stig_id: 'UBTU-24-200650'
   tag gtitle: 'SRG-OS-000023-GPOS-00006'
-  tag fix_id: 'F-74626r1066564_fix'
+  tag fix_id: 'F-74626r1261526_fix'
   tag 'documentable'
   tag cci: ['CCI-000048']
   tag nist: ['AC-8 a']
 
-  xorg_status = command('which Xorg').exit_status
+  # Same GUI detection as SV-270693: Xorg, an X11 or Wayland session, or GDM itself (gdm3
+  # without recommends gives gnome-shell and Xwayland but no Xorg).
+  gui_installed = command('which Xorg').exit_status.zero? ||
+                  package('gdm3').installed? ||
+                  !command('ls /usr/share/xsessions/* /usr/share/wayland-sessions/*').stdout.strip.empty?
 
-  if xorg_status == 0
-    describe 'banner-message-enable must be set to true' do
-      subject { command('grep banner-message-enable /etc/gdm3/greeter.dconf-defaults').stdout.strip }
-      it { should match(/banner-message-enable\s*=\s*true/) }
+  if gui_installed
+    # Anchored like DISA's `grep ^banner-message-enable`, so a commented-out line does not count.
+    settings = command('grep ^banner-message-enable /etc/gdm3/greeter.dconf-defaults').stdout.lines.map(&:strip)
+
+    describe 'banner-message-enable in /etc/gdm3/greeter.dconf-defaults' do
+      it 'is set to true' do
+        compliant = !settings.empty? && settings.all? { |l| l.match?(/\Abanner-message-enable\s*=\s*true\z/) }
+        expect(compliant).to be(true), "Found: #{settings.empty? ? 'not set (missing or commented out)' : settings.join('; ')}"
+      end
     end
   else
-    describe command('which Xorg').exit_status do
-      skip("GUI not installed.\nwhich Xorg exit_status: " + command('which Xorg').exit_status.to_s)
+    impact 0.0
+    describe 'The system does not have a GUI installed, this control is Not Applicable' do
+      skip 'A GUI (Xorg, an X11/Wayland session or gdm3) is not installed, this control is Not Applicable.'
     end
   end
 end

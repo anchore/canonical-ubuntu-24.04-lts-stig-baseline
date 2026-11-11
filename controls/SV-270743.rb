@@ -2,7 +2,7 @@ control 'SV-270743' do
   title 'Ubuntu 24.04 LTS must immediately terminate all network connections associated with SSH traffic at the end of the session or after 10 minutes of inactivity.'
   desc 'Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element.  
  
-Terminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at Ubuntu 24.04 LTS level, and de-allocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that Ubuntu 24.04 LTS terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.'
+Terminating network connections associated with communications sessions includes, for example, deallocating associated TCP/IP address/port pairs at the Ubuntu 24.04 LTS level and deallocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that Ubuntu 24.04 LTS terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.'
   desc 'check', 'Verify that all network connections associated with SSH traffic are automatically terminated at the end of the session or after 10 minutes of inactivity with the following command:
 
 $ grep -ir ClientAliveInterval /etc/ssh/sshd_config*
@@ -11,44 +11,55 @@ $ grep -ir ClientAliveInterval /etc/ssh/sshd_config*
 If "ClientAliveInterval" does not exist, is not set to a value of "600" or less in "/etc/ssh/sshd_config", if conflicting results are returned, is commented out, or is missing, this is a finding.'
   desc 'fix', 'Configure Ubuntu 24.04 LTS to automatically terminate all network connections associated with SSH traffic at the end of a session or after a 10-minute period of inactivity.
 
-In the file /etc/ssh/sshd_config set ClientAliveInterval to a value of "600" or less: 
+In the file "/etc/ssh/sshd_config", set "ClientAliveInterval" to a value of "600" or less: 
 
 ClientAliveInterval 600
 
-Restart the SSH daemon for the changes to take effect:
+Restart SSH for the changes to take effect: 
 
-$ sudo systemctl restart sshd.service'
+$ sudo systemctl restart ssh'
   impact 0.5
   tag check_id: 'C-74776r1066716_chk'
   tag severity: 'medium'
   tag gid: 'V-270743'
-  tag rid: 'SV-270743r1066718_rule'
+  tag rid: 'SV-270743r1208702_rule'
   tag stig_id: 'UBTU-24-600010'
   tag gtitle: 'SRG-OS-000163-GPOS-00072'
-  tag fix_id: 'F-74677r1066717_fix'
+  tag fix_id: 'F-74677r1208701_fix'
   tag 'documentable'
   tag cci: ['CCI-001133']
   tag nist: ['SC-10']
+  tag 'host'
+  tag 'container-conditional'
 
   setting = 'ClientAliveInterval'
-  gssapi_authentication = input('sshd_config_values')
-  value = gssapi_authentication[setting]
+  max_interval = input('sshd_config_values')[setting].to_i
   openssh_present = package('openssh-server').installed?
+  is_container = virtualization.container_system?
+  allow_container_openssh = input('allow_container_openssh_server')
 
   only_if('This requirement is Not Applicable in the container without open-ssh installed', impact: 0.0) {
-    !(virtualization.system.eql?('docker') && !openssh_present)
+    !is_container || openssh_present
   }
 
-  if input('allow_container_openssh_server') == false
+  if is_container && !allow_container_openssh
     describe 'In a container Environment' do
       it 'the OpenSSH Server should be installed only when allowed in a container environment' do
-        expect(openssh_present).to eq(false), 'OpenSSH Server is installed but not approved for the container environment'
+        expect(openssh_present).to eq(allow_container_openssh), 'OpenSSH Server is installed but not approved for the container environment'
       end
     end
   else
-    describe 'The OpenSSH Server configuration' do
-      it "has the correct #{setting} configuration" do
-        expect(sshd_config.params[setting.downcase]).to cmp(value), "The #{setting} setting in the SSHD config is not correct. Please ensure it set to '#{value}'."
+    # DISA greps every sshd config file (/etc/ssh/sshd_config*); sshd_active_config reads only the
+    # main file and does not follow Include, so read the sshd_config.d drop-ins too. Comment lines
+    # are skipped; a trailing comment and quotes are dropped, as sshd does.
+    lines = command("grep -iHs -E '^[[:space:]]*clientaliveinterval([[:space:]]|=)' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/*.conf").stdout.lines.map(&:strip)
+    values = lines.map { |l| l.sub(/\A.*?:(?=[[:space:]]*clientaliveinterval[[:space:]=])/i, '').strip.sub(/^clientaliveinterval[[:space:]=]+/i, '').sub(/[[:space:]]+#.*\z/, '').delete(%q("')).strip }.uniq
+
+    describe "#{setting} in /etc/ssh/sshd_config and /etc/ssh/sshd_config.d/*.conf" do
+      # "600 or less": 0 switches the keepalive (and so the timeout) off, so it is a finding too.
+      it "is set once, to between 1 and #{max_interval} seconds" do
+        compliant = values.length == 1 && values.first.match?(/\A\d+\z/) && values.first.to_i.between?(1, max_interval)
+        expect(compliant).to be(true), "Found: #{lines.empty? ? 'not set (missing or commented out)' : lines.join('; ')}"
       end
     end
   end

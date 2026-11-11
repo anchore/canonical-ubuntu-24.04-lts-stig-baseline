@@ -21,7 +21,7 @@ $ sudo chage -E $(date -d +3days +%Y-%m-%d) <temporary_account_name>'
   tag check_id: 'C-74715r1066533_chk'
   tag severity: 'medium'
   tag gid: 'V-270682'
-  tag rid: 'SV-270682r1066535_rule'
+  tag rid: 'SV-270682r1268212_rule'
   tag stig_id: 'UBTU-24-200250'
   tag gtitle: 'SRG-OS-000002-GPOS-00002'
   tag fix_id: 'F-74616r1066534_fix'
@@ -29,8 +29,11 @@ $ sudo chage -E $(date -d +3days +%Y-%m-%d) <temporary_account_name>'
   tag 'documentable'
   tag cci: ['CCI-000016', 'CCI-001682']
   tag nist: ['AC-2 (2)', 'AC-2 (2)']
+  tag 'host'
+  tag 'container'
 
   tmp_users = input('temporary_accounts')
+
   tmp_max_days = input('temporary_account_max_days')
 
   if tmp_users.empty?
@@ -39,19 +42,26 @@ $ sudo chage -E $(date -d +3days +%Y-%m-%d) <temporary_account_name>'
       it { should be_empty }
     end
   else
-    # user has to specify what the tmp accounts are, so we will print a different pass message
-    # if none of those tmp accounts even exist on the system for clarity
     tmp_users_existing = tmp_users.select { |u| user(u).exists? }
-    failing_users = tmp_users_existing.select { |u| user(u).warndays > tmp_max_days }
+    # DISA checks the account expiration (`chage -l ... | grep "account expires"`), not the password
+    # lifetime: /etc/shadow field 8, in days since the epoch, empty when the account never expires.
+    # An account fails if it never expires or expires more than tmp_max_days from today.
+    today = command('date +%s').stdout.strip.to_i / 86_400
+    failing_users = tmp_users_existing.select do |u|
+      expiry = shadow.where(user: u).expiry_dates.first.to_s.strip
+      !expiry.match?(/\A\d+\z/) || expiry.to_i - today > tmp_max_days
+    end
+    missing_users = tmp_users - tmp_users_existing
 
     describe 'Temporary accounts' do
-      if tmp_users_existing.nil?
+      if tmp_users_existing.any?
         it "should have expiration times less than or equal to '#{tmp_max_days}' days" do
           expect(failing_users).to be_empty, "Failing users:\n\t- #{failing_users.join("\n\t- ")}"
         end
-      else
-        it "(input as '#{tmp_users.join("', '")}') were not found on this system" do
-          expect(tmp_users_existing).to be_empty
+      end
+      if missing_users.any?
+        it "(input users: '#{missing_users.join("', '")}') were not found on this system" do
+          expect(missing_users).not_to be_empty
         end
       end
     end

@@ -15,24 +15,27 @@ Add or edit the following lines in the "/etc/ssh/sshd_config" file:
 PermitEmptyPasswords no 
 PermitUserEnvironment no 
  
-Restart the SSH daemon for the changes to take effect: 
- 
-$ sudo systemctl restart sshd.service'
+Restart SSH for the changes to take effect: 
+
+$ sudo systemctl restart ssh'
   impact 0.7
-  tag check_id: 'C-74750r1067177_chk'
+  tag check_id: 'C-74750r1208296_chk'
   tag severity: 'high'
-  tag gid: 'V-270717'
-  tag rid: 'SV-270717r1067177_rule'
-  tag stig_id: 'UBTU-24-300031'
   tag gtitle: 'SRG-OS-000480-GPOS-00229'
-  tag fix_id: 'F-74651r1066639_fix'
-  tag 'documentable'
+  tag gid: 'V-270717'
+  tag rid: 'SV-270717r1208700_rule'
+  tag stig_id: 'UBTU-24-300031'
+  tag fix_id: 'F-74651r1208297_fix'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
   tag 'host'
   tag 'container-conditional'
 
-  describe sshd_config do
+  only_if('This requirement is Not Applicable inside a container, the containers host manages the containers filesystems', impact: 0.0) {
+    !virtualization.container_system? || package('openssh-server').installed?
+  }
+
+  describe sshd_active_config do
     its('PermitUserEnvironment') { should cmp 'no' }
     its('PermitEmptyPasswords') { should cmp 'no' }
   end

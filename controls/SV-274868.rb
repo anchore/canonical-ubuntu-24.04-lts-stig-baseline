@@ -2,9 +2,7 @@ control 'SV-274868' do
   title 'Ubuntu 24.04 LTS must require users to provide a password for privilege escalation.'
   desc 'Without reauthentication, users may access resources or perform tasks for which they do not have authorization.
 
-When operating systems provide the capability to escalate a functional capability, it is critical that the user reauthenticate.
-
-'
+When operating systems provide the capability to escalate a functional capability, it is critical that the user reauthenticate.'
   desc 'check', %q(Verify that "/etc/sudoers" has no occurrences of "NOPASSWD" with the following command:
 
 $ sudo egrep -iR 'NOPASSWD' /etc/sudoers /etc/sudoers.d/
@@ -19,7 +17,7 @@ $ sudo find /etc/sudoers /etc/sudoers.d -type f -exec sed -i '/NOPASSWD/ s/^/# /
   tag check_id: 'C-78969r1101743_chk'
   tag severity: 'medium'
   tag gid: 'V-274868'
-  tag rid: 'SV-274868r1107313_rule'
+  tag rid: 'SV-274868r1268251_rule'
   tag stig_id: 'UBTU-24-300020'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag fix_id: 'F-78874r1101744_fix'
@@ -27,12 +25,20 @@ $ sudo find /etc/sudoers /etc/sudoers.d -type f -exec sed -i '/NOPASSWD/ s/^/# /
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
+  tag 'host'
 
-  nopasswd_occurrences = command("egrep -iR 'NOPASSWD' /etc/sudoers /etc/sudoers.d/")
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.container_system?
+  }
 
-  describe 'Users are required to provide password for privilege escalation' do
-    it 'should not find users with nopasswd set' do
-      expect(nopasswd_occurrences).to be_empty
+  # passwordless_admins lists ISSO-approved administrative groups; accept them written as "group" or "%group".
+  approved = Array(input('passwordless_admins')).flat_map { |a| [a, "%#{a.delete_prefix('%')}"] }
+  nopasswd_rules = sudoers(input('sudoers_config_files')).rules.where { !tags.nil? && Array(tags).join.include?('NOPASSWD') }
+  failing_results = nopasswd_rules.where { (Array(users) - approved).any? }
+
+  describe 'Sudoers' do
+    it 'should not include any (non-exempt) users with NOPASSWD set' do
+      expect(failing_results.users.flatten.uniq).to be_empty, "NOPASSWD settings found for users:\n\t- #{failing_results.users.flatten.uniq.join("\n\t- ")}"
     end
   end
 end

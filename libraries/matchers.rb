@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 RSpec::Matchers.define :match_pam_rule do |expected|
   match do |actual|

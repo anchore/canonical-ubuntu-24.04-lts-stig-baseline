@@ -1,10 +1,10 @@
 control 'SV-270691' do
-  title 'Ubuntu 24.04 LTS must display the Standard Mandatory DOD Notice and Consent Banner before granting access to via an SSH logon.'
+  title 'Ubuntu 24.04 LTS must display the Standard Mandatory DoW Notice and Consent Banner before granting access to via an SSH logon.'
   desc %q(Display of a standardized and approved use notification before granting access to the publicly accessible operating system ensures privacy and security notification verbiage used is consistent with applicable federal laws, Executive Orders, directives, policies, regulations, standards, and guidance. 
  
 System use notifications are required only for access via logon interfaces with human users and are not required when such human interfaces do not exist. 
  
-The banner must be formatted in accordance with applicable DOD policy. Use the following verbiage for operating systems that can accommodate banners of 1300 characters: 
+The banner must be formatted in accordance with applicable DoW policy. Use the following verbiage for operating systems that can accommodate banners of 1300 characters: 
  
 "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. 
  
@@ -22,17 +22,15 @@ By using this IS (which includes any device attached to this IS), you consent to
  
 Use the following verbiage for operating systems that have severe limitations on the number of characters that can be displayed in the banner: 
  
-"I've read (literal ampersand) consent to terms in IS user agreem't."
-
-)
-  desc 'check', 'Verify Ubuntu 24.04 LTS displays the Standard Mandatory DOD Notice and Consent Banner before granting access via an SSH logon with the following command: 
+"I've read (literal ampersand) consent to terms in IS user agreem't.")
+  desc 'check', 'Verify Ubuntu 24.04 LTS displays the Standard Mandatory DoW Notice and Consent Banner before granting access via an SSH logon with the following command: 
  
 $ sudo grep -ir banner /etc/ssh/sshd_config* 
 /etc/ssh/sshd_config:Banner /etc/issue.net
  
 The command will return the banner option along with the name of the file that contains the SSH banner. If the line is commented out, missing, or conflicting results are returned, this is a finding.
  
-Verify the specified banner file matches the Standard Mandatory DOD Notice and Consent Banner exactly: 
+Verify the specified banner file matches the Standard Mandatory DoW Notice and Consent Banner exactly: 
  
 $ cat /etc/issue.net 
 "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. 
@@ -49,15 +47,15 @@ By using this IS (which includes any device attached to this IS), you consent to
  
 -Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details." 
  
-If the banner text does not match the Standard Mandatory DOD Notice and Consent Banner exactly, this is a finding.'
-  desc 'fix', %q(Configure Ubuntu 24.04 LTS to display the Standard Mandatory DOD Notice and Consent Banner before granting access via an SSH logon.
+If the banner text does not match the Standard Mandatory DoW Notice and Consent Banner exactly, this is a finding.'
+  desc 'fix', %q(Configure Ubuntu 24.04 LTS to display the Standard Mandatory DoW Notice and Consent Banner before granting access via an SSH logon.
 
 Set the parameter Banner in "/etc/ssh/sshd_config" to point to the "/etc/issue.net" file: 
  
 $ sudo sed -i '/^Banner/d' /etc/ssh/sshd_config 
 $ sudo sed -i '$aBanner /etc/issue.net' /etc/ssh/sshd_config 
  
-Either create the file containing the banner or replace the text in the file with the Standard Mandatory DOD Notice and Consent Banner. The DOD required text is: 
+Either create the file containing the banner or replace the text in the file with the Standard Mandatory DoW Notice and Consent Banner. The DoW required text is: 
  
 "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. 
  
@@ -77,35 +75,51 @@ Restart the SSH daemon for the changes to take effect and then signal the SSH se
  
 $ sudo systemctl -s SIGHUP kill sshd)
   impact 0.5
-  tag check_id: 'C-74724r1066560_chk'
+  tag check_id: 'C-74724r1261522_chk'
   tag severity: 'medium'
-  tag gid: 'V-270691'
-  tag rid: 'SV-270691r1066562_rule'
-  tag stig_id: 'UBTU-24-200640'
   tag gtitle: 'SRG-OS-000023-GPOS-00006'
-  tag fix_id: 'F-74625r1066561_fix'
   tag satisfies: ['SRG-OS-000023-GPOS-00006', 'SRG-OS-000228-GPOS-00088']
-  tag 'documentable'
+  tag gid: 'V-270691'
+  tag rid: 'SV-270691r1268215_rule'
+  tag stig_id: 'UBTU-24-200640'
+  tag fix_id: 'F-74625r1261523_fix'
   tag cci: ['CCI-000048', 'CCI-001384', 'CCI-001385', 'CCI-001386', 'CCI-001387', 'CCI-001388']
-  tag nist: ['AC-8 a', 'AC-8 c 1', 'AC-8 c 2', 'AC-8 c 2', 'AC-8 c 2', 'AC-8 c 3']
+  tag nist: ['AC-8 a', 'AC-8 c 1', 'AC-8 c 2', 'AC-8 c 3']
   tag 'host'
+  tag 'container-conditional'
 
-  only_if('Control not applicable within a container', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+  only_if('Control not applicable - SSH is not installed within containerized Ubuntu', impact: 0.0) {
+    !virtualization.container_system? || package('openssh-server').installed?
   }
 
-  banner_file = file('/etc/issue')
+  # DISA greps every sshd config file (/etc/ssh/sshd_config*), so read the main file and the
+  # sshd_config.d drop-ins it includes, not only the main file. Comment lines are skipped.
+  banner_lines = command("grep -iHs -E '^[[:space:]]*banner([[:space:]]|=)' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/*.conf").stdout.lines.map(&:strip)
+  # Drop the "file:" prefix and keyword, plus a trailing comment and quotes, which sshd also ignores.
+  banner_values = banner_lines.map { |l| l.sub(/\A.*?:(?=[[:space:]]*banner[[:space:]=])/i, '').strip.sub(/^banner[[:space:]=]+/i, '').sub(/[[:space:]]+#.*\z/, '').delete(%q("')).strip }.uniq
 
-  describe banner_file do
-    it { should exist }
+  describe 'SSH Banner in /etc/ssh/sshd_config and /etc/ssh/sshd_config.d/*.conf' do
+    it 'is set to one banner file, not none, with no conflicting values' do
+      expect(banner_values.length).to eq(1), "Expected one Banner value, found: #{banner_lines.empty? ? 'none (missing or commented out)' : banner_lines.join('; ')}"
+      expect(banner_values.first.to_s.downcase).not_to eq('none'), 'Banner is set to none'
+    end
   end
 
-  if banner_file.exist?
+  banner_path = banner_values.first if banner_values.length == 1 && banner_values.first.downcase != 'none'
+  banner_file = banner_path ? file(banner_path) : nil
 
+  if banner_file
+    describe "File containing Banner Content (#{banner_path})" do
+      it 'should exist' do
+        expect(banner_file).to exist
+      end
+    end
+  end
+
+  if banner_file&.exist?
     banner = banner_file.content.gsub(/[\r\n\s]/, '')
     expected_banner = input('banner_message_text_cli').gsub(/[\r\n\s]/, '')
-
-    describe 'The CLI Login Banner ' do
+    describe 'The CLI Login Banner' do
       it 'is set to the standard banner and has the correct text' do
         expect(banner).to eq(expected_banner), 'Banner does not match expected text'
       end

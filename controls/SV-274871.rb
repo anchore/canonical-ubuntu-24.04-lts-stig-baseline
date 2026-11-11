@@ -6,9 +6,9 @@ control 'SV-274871' do
 To verify the screensaver is configured to be blank, run the following command:
 
 $ gsettings writable org.gnome.desktop.screensaver picture-uri
- 
+
 false
- 
+
 If "picture-uri" is writable and the result is "true", this is a finding.'
   desc 'fix', %q(Configure Ubuntu 24.04 LTS to prevent a user from overriding the picture-uri setting for graphical user interfaces.
 
@@ -35,8 +35,26 @@ $ sudo dconf update)
   tag 'documentable'
   tag cci: ['CCI-000060']
   tag nist: ['AC-11 (1)']
+  tag 'host'
 
-  describe 'If GUI is present use blank screensaver' do
-    skip 'Manual check'
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.container_system?
+  }
+
+  if package('gnome-shell').installed?
+    describe file('/etc/dconf/db/local.d/00-security-settings') do
+      # picture-uri='' anywhere in the [org/gnome/desktop/screensaver] section, before the next section header.
+      its('content') { should match %r{^\[org/gnome/desktop/screensaver\]\s*$(?:\n(?!\s*\[).*)*?\n\s*picture-uri\s*=\s*''\s*$} }
+    end
+    describe file('/etc/dconf/db/local.d/locks/00-security-settings-lock') do
+      # Only an active lock line counts; a commented-out one leaves the key writable.
+      its('content') { should match %r{^\s*/org/gnome/desktop/screensaver/picture-uri\s*$} }
+    end
+  else
+    impact 0.0
+    describe 'The system does not have GNOME installed' do
+      skip "The system does not have GNOME installed, this requirement is Not
+        Applicable."
+    end
   end
 end
